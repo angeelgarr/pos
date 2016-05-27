@@ -1,6 +1,6 @@
-
+/*author xiehuan*/
 #include <posapi.h>
-//test
+
 #define TIMENO 1
 int i;
 uchar alphaFlag=0;
@@ -78,7 +78,7 @@ uchar get_amount(const char *prompt_str,ulong *amount)
 	digit_str=prompt_str;
 	
 	ScrCls();
-	ScrPrint(0,2,1,"ÇëÊäÈë½ð¶î:");
+	ScrPrint(0,2,1,"è¯·è¾“å…¥é‡‘é¢:");
 	if(NULL==prompt_str) 
 	{
 		ScrPrint(0,0,0x01,"param error");
@@ -108,18 +108,18 @@ uchar get_amount(const char *prompt_str,ulong *amount)
 	case KEY7:
 	case KEY8:
 	case KEY9:
-		if(alphaFlag==0 && (i>=10 && uKey!=KEYALPHA)) /*µ±Ç°Ê®Î»Î´³öÏÖÐ¡Êýµã£¬ÊäÈëµÄµÚ11Î»Êý²»ÊÇÐ¡ÊýµãµÄÊ±ºòÌáÊ¾±¨´í*/
+		if(alphaFlag==0 && (i>=10 && uKey!=KEYALPHA)) /*å½“å‰åä½æœªå‡ºçŽ°å°æ•°ç‚¹ï¼Œè¾“å…¥çš„ç¬¬11ä½æ•°ä¸æ˜¯å°æ•°ç‚¹çš„æ—¶å€™æç¤ºæŠ¥é”™*/
 		{
 			Beef(6,700);
 			break;
 		}
-		if(digit_str[0]==KEY0 && i==1)   /*µ±µÚÒ»Î»ÊäÈë0ÒÔºó£¬µÚ¶þÎ»²»ÔÊÐíÊäÈëÊý×Ö*/
+		if(digit_str[0]==KEY0 && i==1)   /*å½“ç¬¬ä¸€ä½è¾“å…¥0ä»¥åŽï¼Œç¬¬äºŒä½ä¸å…è®¸è¾“å…¥æ•°å­—*/
 		{
 			error();
 			break;
 		}
 
-		if(alphaFlag==1)                /*µ±ÊäÈëÐ¡ÊýÒÔºóºóÃæÖ»ÔÊÐíÊäÈëÁ½Î»Êý×Ö*/
+		if(alphaFlag==1)                /*å½“è¾“å…¥å°æ•°ä»¥åŽåŽé¢åªå…è®¸è¾“å…¥ä¸¤ä½æ•°å­—*/
 				{
 					temp=count--;
 					if(temp<=2)
