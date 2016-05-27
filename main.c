@@ -1,6 +1,6 @@
 /*author xiehuan*/
 #include <posapi.h>
-
+//zongsi
 #define TIMENO 1
 int i;
 uchar alphaFlag=0;
