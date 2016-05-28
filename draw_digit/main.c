@@ -1,7 +1,11 @@
 
 #include <posapi.h>
 #include <posapi_all.h>
-
+/*have a pull requests*/
+void test(void)
+{
+	
+}
 const APPINFO AppInfo={
 		"DRAW_DIGIT",
 		"APP-TEST",
@@ -75,7 +79,7 @@ int main(void)
 				showDigit5(32,16,1,1,1);
 
 				DelayMs(1000);
-				showDigit5(32,16,1,1,0);        //放大两倍
+				showDigit5(32,16,1,1,0);        //路脜麓贸脕陆卤露
 				showDigit5(32,16,2,0,1);
 				
 				DelayMs(1000);
@@ -83,7 +87,7 @@ int main(void)
 				showDigit5(32,16,2,1,1);
 
 				DelayMs(1000);
-				showDigit5(32,16,2,1,0);   //放大三倍
+				showDigit5(32,16,2,1,0);   //路脜麓贸脠媒卤露
 				showDigit5(32,16,3,0,1);
 				
 				DelayMs(1000);
