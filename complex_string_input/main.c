@@ -1,5 +1,6 @@
-﻿
+
 #include <posapi.h>
+
 
 #define TIMENO 1
 int i,cursorFlag=1;
@@ -20,7 +21,87 @@ const APPINFO AppInfo={
 uchar get_key(unsigned int timeout);
 void DrawChar(int startX,int startY,int showSwitch);
 uchar input_string(const char *prompt, char *out_str);
+uchar OutputNexKey(uchar keyvalue, uchar isUpper);
 
+uchar OutputUpperNexKey(uchar keyvalue)
+{
+    uchar i;
+    uchar *temp;
+	uchar *keyCollect[]=
+	{
+		(uchar*)"1QZ.",
+		(uchar*)"2ABC",
+		(uchar*)"3DEF",
+		(uchar*)"4GHI",
+		(uchar*)"5JKL",
+		(uchar*)"6MNO",
+		(uchar*)"7PRS",
+		(uchar*)"8TUV",
+		(uchar*)"9WXY",
+		(uchar*)"0,*#",
+	};
+
+	for(i = 0;i<10;i++)
+	{
+	    temp=keyCollect[i];
+		while(*keyCollect[i]!=0)
+		{
+		if(keyvalue == *keyCollect[i]++)
+			{
+				keyvalue = *keyCollect[i];
+				if(keyvalue == 0)
+				{
+					keyvalue = *temp;
+				}
+				i=10;
+				break;
+
+			}
+		}
+	}
+   
+	return keyvalue;
+}
+
+uchar OutputLowerNexKey(uchar keyvalue)
+{
+    uchar i;
+    uchar *temp;
+	uchar *keyCollect[]=
+	{
+		(uchar*)"1qz.",
+		(uchar*)"2abc",
+		(uchar*)"3def",
+		(uchar*)"4ghi",
+		(uchar*)"5jkl",
+		(uchar*)"6mno",
+		(uchar*)"7prs",
+		(uchar*)"8tuv",
+		(uchar*)"9wxy",
+		(uchar*)"0,*#",
+	};
+
+	for(i = 0;i<10;i++)
+	{
+	    temp=keyCollect[i];
+		while(*keyCollect[i]!=0)
+		{
+		if(keyvalue == *keyCollect[i]++)
+			{
+				keyvalue = *keyCollect[i];
+				if(keyvalue == 0)
+				{
+					keyvalue = *temp;
+				}
+				i=10;
+				break;
+
+			}
+		}
+	}
+   
+	return keyvalue;
+}
 void DrawChar(int startX,int startY,int showSwitch)
 {
 	int x;
@@ -64,7 +145,7 @@ uchar get_key(unsigned int timeout)
  {
 	char *digit_str=NULL;
 	uchar uKey,j,temp;
-
+	
 	digit_str=out_str;
 	ScrCls();
 	if(NULL==prompt || NULL==out_str) 
@@ -90,6 +171,8 @@ uchar get_key(unsigned int timeout)
 	case KEY7:
 	case KEY8:
 	case KEY9:
+		//uKey=OutputUpperNexKey(uKey);
+		uKey=OutputLowerNexKey(uKey);
 		digit_str[i]=uKey;
 		digit_str[++i]=0x00;
 		break;
@@ -108,6 +191,7 @@ uchar get_key(unsigned int timeout)
 		   ScrCls();
 		   digit_str[i]=0x00;
            ScrPrint(2,0,0x01,"%s",digit_str);
+		   i=0;
 		   DelayMs(3000);
 		   return 0;
 	   }
@@ -159,7 +243,7 @@ int main(void)
 		ucKey=getkey();
 	} while(ucKey!=KEY1 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
 	if(ucKey==KEY1 || ucKey==KEYENTER)
-	input_string("请输入:",BUFSIZ);
+	input_string("input please:",BUFSIZ);
 	if(ucKey==KEYCANCEL) return 1;
 	}
 	return 0;
