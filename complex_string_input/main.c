@@ -144,8 +144,10 @@ uchar get_key(unsigned int timeout)
  uchar input_string(const char *prompt, char *out_str)
  {
 	char *digit_str=NULL;
-	uchar uKey,j,temp;
-	
+	uchar uKey;
+	char isUpper=1;
+	uchar keyTemp,keyTemp1,j=1;
+
 	digit_str=out_str;
 	ScrCls();
 	if(NULL==prompt || NULL==out_str) 
@@ -154,6 +156,7 @@ uchar get_key(unsigned int timeout)
 		Beef(6,700);
 		return 1;
 	}
+	ScrPrint(119,0,1,"A");
    ScrPrint(0,3,1,prompt);
     while(1)
 	{
@@ -171,10 +174,66 @@ uchar get_key(unsigned int timeout)
 	case KEY7:
 	case KEY8:
 	case KEY9:
-		//uKey=OutputUpperNexKey(uKey);
-		uKey=OutputLowerNexKey(uKey);
-		digit_str[i]=uKey;
-		digit_str[++i]=0x00;
+	case KEYDOWN:
+		if(i>=30)
+		{
+			Beef(6,700);
+			break;
+		}
+
+		if(uKey==KEYDOWN)
+			{
+				i++;
+				digit_str[i]=' ';
+				j=1;
+				digit_str[i+1]=0x00;
+				break;
+			}
+
+	
+	
+		if(1==isUpper)
+		{
+	
+			if(uKey==keyTemp1 && j==2)
+			keyTemp=OutputUpperNexKey(keyTemp);
+			if(uKey!=keyTemp1 && 2==j)
+			{
+				 i++;
+				keyTemp=uKey;
+				j=1;
+			 }	     
+		}
+	
+		
+		if(-1==isUpper)
+		{
+			if(uKey==keyTemp1 && j==2)
+			keyTemp=OutputLowerNexKey(keyTemp);
+			if(uKey!=keyTemp1 && 2==j)
+			 {
+				 i++;
+				keyTemp=uKey;
+				 j=1;
+			 }	     
+	
+		}
+
+		if(j==1)         /*记录每次按下的第一个键*/
+		{ 
+		keyTemp1=uKey;
+		keyTemp=uKey;
+		j=2;
+		}
+
+		digit_str[i]=keyTemp;
+		digit_str[i+1]=0x00;
+		break;
+	case KEYALPHA:
+		isUpper*=-1;
+		ScrClrLine(0,1);
+		if(1==isUpper)ScrPrint(119,0,1,"A");
+		if(-1==isUpper)ScrPrint(119,0,1,"a");
 		break;
 	case 0xFE:
 		ScrPrint(0,0,0x01,"input time out");
@@ -196,16 +255,18 @@ uchar get_key(unsigned int timeout)
 		   return 0;
 	   }
 	case KEYCANCEL:
+		i=0;
 		return 1;
 	case KEYCLEAR:
 		if(0==i) 	Beef(6,700);
 		else
 		{
 		digit_str[i-1]=0x00;
+		j=1;   /*让键盘重新接收*/
 		ScrClrLine(6,7);
 		if(i<16)ScrPrint(0,6,1,"%16s",digit_str);
 	    else ScrPrint(0,6,1,"%16s",digit_str+i-16);
-		--i;
+	   	--i;
 		}
 		break;
 	default:  
