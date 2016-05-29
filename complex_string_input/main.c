@@ -1,4 +1,4 @@
-
+ï»¿
 #include <posapi.h>
 
 #define TIMENO 1
@@ -159,7 +159,7 @@ int main(void)
 		ucKey=getkey();
 	} while(ucKey!=KEY1 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
 	if(ucKey==KEY1 || ucKey==KEYENTER)
-	input_string("ÇëÊäÈë:",BUFSIZ);
+	input_string("è¯·è¾“å…¥:",BUFSIZ);
 	if(ucKey==KEYCANCEL) return 1;
 	}
 	return 0;
