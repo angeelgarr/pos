@@ -1,4 +1,3 @@
-
 #include <posapi.h>
 
 
@@ -156,7 +155,7 @@ uchar get_key(unsigned int timeout)
 		Beef(6,700);
 		return 1;
 	}
-	ScrPrint(119,0,1,"A");
+	ScrPrint(118,0,0x01|0x80,"%c",'A');
    ScrPrint(0,3,1,prompt);
     while(1)
 	{
@@ -183,6 +182,7 @@ uchar get_key(unsigned int timeout)
 
 		if(uKey==KEYDOWN)
 			{
+				if(digit_str[i]!=0)
 				i++;
 				digit_str[i]=' ';
 				j=1;
@@ -196,7 +196,10 @@ uchar get_key(unsigned int timeout)
 		{
 	
 			if(uKey==keyTemp1 && j==2)
+			{
 			keyTemp=OutputUpperNexKey(keyTemp);
+			//ScrPrint(119,6,0x01|0x80,"%c",keyTemp);
+			}
 			if(uKey!=keyTemp1 && 2==j)
 			{
 				 i++;
@@ -232,15 +235,15 @@ uchar get_key(unsigned int timeout)
 	case KEYALPHA:
 		isUpper*=-1;
 		ScrClrLine(0,1);
-		if(1==isUpper)ScrPrint(119,0,1,"A");
-		if(-1==isUpper)ScrPrint(119,0,1,"a");
+		if(1==isUpper)ScrPrint(118,0,0x01|0x80,"%c",'A');
+		if(-1==isUpper)ScrPrint(118,0,0x01|0x80,"%c",'a');
 		break;
 	case 0xFE:
 		ScrPrint(0,0,0x01,"input time out");
 		Beef(6,700);
 		return 2;
 	case KEYENTER:
-		if(i<1 || i>30)
+		if(i>30)
 		{
 			Beef(6,700);
 			break;
@@ -248,14 +251,16 @@ uchar get_key(unsigned int timeout)
 	   else
 	   { 
 		   ScrCls();
-		   digit_str[i]=0x00;
+		   digit_str[i+1]=0x00;
            ScrPrint(2,0,0x01,"%s",digit_str);
 		   i=0;
+		   memset(digit_str,0,sizeof(digit_str));
 		   DelayMs(3000);
 		   return 0;
 	   }
 	case KEYCANCEL:
 		i=0;
+		memset(digit_str,0,sizeof(digit_str));
 		return 1;
 	case KEYCLEAR:
 		if(0==i) 	Beef(6,700);
@@ -264,7 +269,11 @@ uchar get_key(unsigned int timeout)
 		digit_str[i-1]=0x00;
 		j=1;   /*让键盘重新接收*/
 		ScrClrLine(6,7);
-		if(i<16)ScrPrint(0,6,1,"%16s",digit_str);
+		if(i<16)
+		{
+			ScrPrint(0,6,1,"%16s",digit_str);
+			
+		}
 	    else ScrPrint(0,6,1,"%16s",digit_str+i-16);
 	   	--i;
 		}
@@ -273,10 +282,17 @@ uchar get_key(unsigned int timeout)
 		Beef(6,700);
 		}
 	ScrClrLine(6,7);
-   if(i<=16) ScrPrint(0,6,1,"%16s",digit_str);
+   if(i<=15) 
+   {
+	   ScrPrint(0,6,1,"%16s",digit_str);
+	   if(digit_str[i]!=' ')
+	   ScrPrint(119,6,0x01|0x80,"%c",digit_str[i]);
+   }
     else 
 	{
-	ScrPrint(0,6,1,"%16s",digit_str+i-16);
+	ScrPrint(0,6,1,"%16s",digit_str+i-15);
+	if(digit_str[i]!=' ')
+	ScrPrint(119,6,0x01|0x80,"%c",digit_str[i]);
 	}
    kbflush();
 	}
