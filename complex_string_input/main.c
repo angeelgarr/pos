@@ -144,7 +144,7 @@ uchar get_key(unsigned int timeout)
  {
 	char *digit_str=NULL;
 	uchar uKey;
-	char isUpper=1;
+	int isUpper=1;
 	uchar keyTemp,keyTemp1,j=1;
 
 	digit_str=out_str;
@@ -222,7 +222,7 @@ uchar get_key(unsigned int timeout)
 	
 		}
 
-		if(j==1)         /*¼ÇÂ¼Ã¿´Î°´ÏÂµÄµÚÒ»¸ö¼ü*/
+		if(j==1)         /*è®°å½•æ¯æ¬¡æŒ‰ä¸‹çš„ç¬¬ä¸€ä¸ªé”®*/
 		{ 
 		keyTemp1=uKey;
 		keyTemp=uKey;
@@ -267,7 +267,7 @@ uchar get_key(unsigned int timeout)
 		else
 		{
 		digit_str[i-1]=0x00;
-		j=1;   /*ÈÃ¼üÅÌÖØĞÂ½ÓÊÕ*/
+		j=1;   /*è®©é”®ç›˜é‡æ–°æ¥æ”¶*/
 		ScrClrLine(6,7);
 		if(i<16)
 		{
