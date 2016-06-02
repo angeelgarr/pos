@@ -1,3 +1,4 @@
+
 #include <posapi.h>
 
 
@@ -20,7 +21,8 @@ const APPINFO AppInfo={
 uchar get_key(unsigned int timeout);
 void DrawChar(int startX,int startY,int showSwitch);
 uchar input_string(const char *prompt, char *out_str);
-uchar OutputNexKey(uchar keyvalue, uchar isUpper);
+uchar OutputUpperNexKey(uchar keyvalue);
+uchar OutputLowerNexKey(uchar keyvalue);
 
 uchar OutputUpperNexKey(uchar keyvalue)
 {
@@ -145,8 +147,9 @@ uchar get_key(unsigned int timeout)
 	char *digit_str=NULL;
 	uchar uKey;
 	int isUpper=1;
+	int pressClear=0;
 	uchar keyTemp,keyTemp1,j=1;
-
+	
 	digit_str=out_str;
 	ScrCls();
 	if(NULL==prompt || NULL==out_str) 
@@ -190,8 +193,7 @@ uchar get_key(unsigned int timeout)
 				break;
 			}
 
-	
-	
+		
 		if(1==isUpper)
 		{
 	
@@ -222,13 +224,18 @@ uchar get_key(unsigned int timeout)
 	
 		}
 
-		if(j==1)         /*è®°å½•æ¯æ¬¡æŒ‰ä¸‹çš„ç¬¬ä¸€ä¸ªé”®*/
+		if(j==1)         /*¼ÇÂ¼Ã¿´Î°´ÏÂµÄµÚÒ»¸ö¼ü*/
 		{ 
 		keyTemp1=uKey;
 		keyTemp=uKey;
 		j=2;
+			if(digit_str[i]==' ' ||(digit_str[i]!=0 && pressClear==1))
+				{
+					i++;
+					pressClear=0;
+				}
 		}
-
+		
 		digit_str[i]=keyTemp;
 		digit_str[i+1]=0x00;
 		break;
@@ -263,21 +270,25 @@ uchar get_key(unsigned int timeout)
 		memset(digit_str,0,sizeof(digit_str));
 		return 1;
 	case KEYCLEAR:
-		if(0==i) 	Beef(6,700);
+		if(i<0) {
+			i=0;
+			Beef(6,700);
+		}
 		else
 		{
-		digit_str[i-1]=0x00;
-		j=1;   /*è®©é”®ç›˜é‡æ–°æ¥æ”¶*/
+		digit_str[i]=0x00;
+		pressClear=1;
+		j=1;   /*ÈÃ¼üÅÌÖØĞÂ½ÓÊÕ*/
 		ScrClrLine(6,7);
-		if(i<16)
+		if(i<=15)
 		{
 			ScrPrint(0,6,1,"%16s",digit_str);
 			
 		}
-	    else ScrPrint(0,6,1,"%16s",digit_str+i-16);
+	    else ScrPrint(0,6,1,"%16s",digit_str+i-15);
 	   	--i;
 		}
-		break;
+	 continue;
 	default:  
 		Beef(6,700);
 		}
