@@ -2,9 +2,6 @@
 #include <posapi.h>
 
 
-#define TIMENO 1
-int i,cursorFlag=1;
-
 const APPINFO AppInfo={
 	"string_input",
 	"APP-TEST",
@@ -112,58 +109,73 @@ void DrawChar(int startX,int startY,int showSwitch)
 		 ScrPlot(startX+7-x,startY,showSwitch);
 }
 
-uchar get_key(unsigned int timeout)
-{
-	uchar key;
-	int cursorFlag=1;
-	
-	if(0==timeout) return getkey();
-	if(1==cursorFlag) DrawChar(120,63,1);
-	TimerSet(TIMENO,timeout*10);
-	while(1)
-	{
-		if(0==kbhit())
-		{
-			key=getkey();
-			return key;
-		}
-		if(!TimerCheck(TIMENO))
-		{
-            return 0xFE;
-		}
-			if(!TimerCheck(TIMENO+2))
-		{
-				DrawChar(120,63,0);; 
-				if(1==cursorFlag) DrawChar(120,63,1);
-				cursorFlag*=-1;
-				TimerSet(TIMENO+2,5);
-		}
-	  
-	}
-}
+//uchar get_key(unsigned int timeout)
+//{
+//	uchar key;
+//	int cursorFlag=1;
+//	int TIMENO=1;
+//
+//	if(0==timeout) return getkey();
+//	if(1==cursorFlag) DrawChar(120,63,1);
+//	TimerSet(TIMENO,timeout*10);
+//	while(1)
+//	{
+//		if(0==kbhit())
+//		{
+//			key=getkey();
+//			return key;
+//		}
+//		if(!TimerCheck(TIMENO))
+//		{
+//            return 0xFE;
+//		}
+//			if(!TimerCheck(TIMENO+2))
+//		{
+//				DrawChar(120,63,0);; 
+//				if(1==cursorFlag) DrawChar(120,63,1);
+//				cursorFlag*=-1;
+//				TimerSet(TIMENO+2,5);
+//		}
+//	  
+//	}
+//}
 
  uchar input_string(const char *prompt, char *out_str)
  {
-	char *digit_str=NULL;
-	uchar uKey;
-	int isUpper=1;
-	int pressClear=0;
-	uchar keyTemp,keyTemp1,j=1;
+	char *digit_str;
+	int isUpper,i;
+	int pressClear,pressSpace;
+	uchar keyTemp,keyTemp1,uKey,j;
+	int cursorFlag=1;
+	int TIMENO=1;
+
 	
-	digit_str=out_str;
-	ScrCls();
 	if(NULL==prompt || NULL==out_str) 
 	{
 		ScrPrint(0,0,0x01,"param error");
 		Beef(6,700);
 		return 1;
 	}
+	j=1;  //j=1表明第一次按下字母键，j=2表明第二次按下相同键
+	i=0; //数组下标
+	isUpper=1;  //默认大写
+	pressClear=0;//记录clear键盘是否按下
+	pressSpace=0;//空格键第一次按下不显示空格
+	cursorFlag=1;//光标数值为1表示显示
+	TIMENO=1;//定时器初始首标志为1
+	digit_str=out_str;
+	memset(digit_str,0,sizeof(digit_str));
+	ScrCls();
 	ScrPrint(118,0,0x01|0x80,"%c",'A');
-   ScrPrint(0,3,1,prompt);
-    while(1)
+    ScrPrint(0,3,1,prompt);
+	TimerSet(TIMENO,300);
+	if(1==cursorFlag) DrawChar(120,63,1);
+    while(1) 
 	{
-    uKey=get_key(30);
-    
+    if(0==kbhit()) 
+	{
+	TimerSet(TIMENO,300);
+	uKey=getkey();
 	switch(uKey)
 	{
 	case KEY0:
@@ -183,23 +195,24 @@ uchar get_key(unsigned int timeout)
 			break;
 		}
 
-		if(uKey==KEYDOWN)
+		if(uKey==KEYDOWN && pressSpace==1)
 			{
-				if(digit_str[i]!=0)
-				i++;
-				digit_str[i]=' ';
-				j=1;
+				if(digit_str[i]!=0) i++;
+				
+				digit_str[i]=' ';	j=1;
 				digit_str[i+1]=0x00;
 				break;
 			}
 
-		
+		pressSpace=0;
 		if(1==isUpper)
 		{
-	
+	        
 			if(uKey==keyTemp1 && j==2)
 			{
-			keyTemp=OutputUpperNexKey(keyTemp);
+				if(digit_str[i]>='a' && digit_str[i]<='z')
+				keyTemp-=32;
+				keyTemp=OutputUpperNexKey(keyTemp);
 			//ScrPrint(119,6,0x01|0x80,"%c",keyTemp);
 			}
 			if(uKey!=keyTemp1 && 2==j)
@@ -213,8 +226,14 @@ uchar get_key(unsigned int timeout)
 		
 		if(-1==isUpper)
 		{
+			
 			if(uKey==keyTemp1 && j==2)
-			keyTemp=OutputLowerNexKey(keyTemp);
+			{
+				if(digit_str[i]>='A' && digit_str[i]<='Z')
+				keyTemp+=32;
+				keyTemp=OutputLowerNexKey(keyTemp);
+			}
+			
 			if(uKey!=keyTemp1 && 2==j)
 			 {
 				 i++;
@@ -226,9 +245,15 @@ uchar get_key(unsigned int timeout)
 
 		if(j==1)         /*记录每次按下的第一个键*/
 		{ 
+		if(uKey==KEYDOWN) 
+			{
+				pressSpace=1;
+				break;
+			}
 		keyTemp1=uKey;
 		keyTemp=uKey;
 		j=2;
+			
 			if(digit_str[i]==' ' ||(digit_str[i]!=0 && pressClear==1))
 				{
 					i++;
@@ -245,10 +270,10 @@ uchar get_key(unsigned int timeout)
 		if(1==isUpper)ScrPrint(118,0,0x01|0x80,"%c",'A');
 		if(-1==isUpper)ScrPrint(118,0,0x01|0x80,"%c",'a');
 		break;
-	case 0xFE:
-		ScrPrint(0,0,0x01,"input time out");
-		Beef(6,700);
-		return 2;
+//	case 0xFE:
+//		ScrPrint(0,0,0x01,"input time out");
+//		Beef(6,700);
+//		return 2;
 	case KEYENTER:
 		if(i>30)
 		{
@@ -260,14 +285,14 @@ uchar get_key(unsigned int timeout)
 		   ScrCls();
 		   digit_str[i+1]=0x00;
            ScrPrint(2,0,0x01,"%s",digit_str);
-		   i=0;
-		   memset(digit_str,0,sizeof(digit_str));
+//		   i=0;
+//		   memset(digit_str,0,sizeof(digit_str));
 		   DelayMs(3000);
 		   return 0;
 	   }
 	case KEYCANCEL:
-		i=0;
-		memset(digit_str,0,sizeof(digit_str));
+//		i=0;
+//		memset(digit_str,0,sizeof(digit_str));
 		return 1;
 	case KEYCLEAR:
 		if(i<0) {
@@ -291,21 +316,39 @@ uchar get_key(unsigned int timeout)
 	 continue;
 	default:  
 		Beef(6,700);
-		}
+		break;
+		}//switch
+
 	ScrClrLine(6,7);
    if(i<=15) 
    {
+
 	   ScrPrint(0,6,1,"%16s",digit_str);
-	   if(digit_str[i]!=' ')
+
+	   if(digit_str[i]!=' ' && pressSpace==0)
 	   ScrPrint(119,6,0x01|0x80,"%c",digit_str[i]);
    }
     else 
 	{
 	ScrPrint(0,6,1,"%16s",digit_str+i-15);
-	if(digit_str[i]!=' ')
+	if(digit_str[i]!=' ' && pressSpace==0)
 	ScrPrint(119,6,0x01|0x80,"%c",digit_str[i]);
 	}
    kbflush();
+	}
+	if(!TimerCheck(TIMENO))
+		{
+        ScrPrint(0,0,0x01,"input time out");
+		Beef(6,700);
+		return 2;
+		}
+			if(!TimerCheck(TIMENO+2))
+		{
+				DrawChar(120,63,0);; 
+				if(1==cursorFlag) DrawChar(120,63,1);
+				cursorFlag*=-1;
+				TimerSet(TIMENO+2,5);
+		}
 	}
 	return 0;
 }
