@@ -1,5 +1,7 @@
 
 #include <posapi.h>
+
+int glCount=0;
 #define DEBUG
 
 const APPINFO AppInfo={
@@ -12,13 +14,7 @@ const APPINFO AppInfo={
 	0,
 	0,
 	0,
-	""comRet=PortOpen(0,"115200,8,n,1");
-	if(comRet)
-	{
-		ScrClrLine(0,1);
-		ScrPrint(0,1,1,"rcv_PortOpen err0X%02X\n",comRet);
-		return 1;
-	}
+	""
 };
 #ifdef DEBUG
 #define byte uchar
@@ -66,7 +62,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
  while(i<totalBit)
  {
 
-  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //ä¿è¯shortä¸­åŠ è½½16ä½bit
+  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //±£Ö¤shortÖÐ¼ÓÔØ16Î»bit
   {
     crc16<<=1;
 	if(i<data_len<<3)
@@ -81,7 +77,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 		goto end;
 	}
 	
-	if(crc16 & 0x8000)  //å¦‚æžœç¬¬16ä½ä¸º1åˆ™å‘å·¦ç§»ä¸€ä½å¹¶å‘åŽè¡¥ä¸€ä½
+	if(crc16 & 0x8000)  //Èç¹ûµÚ16Î»Îª1ÔòÏò×óÒÆÒ»Î»²¢Ïòºó²¹Ò»Î»
 	{
 		rightNumber=15;
 		flag=1;
@@ -89,7 +85,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 	}
 	
 end:
-	for(j=0;j<16;j++)   //ä»Žå·¦å¼€å§‹æ‰¾ç¬¬ä¸€ä½1
+	for(j=0;j<16;j++)   //´Ó×ó¿ªÊ¼ÕÒµÚÒ»Î»1
 	{
 	if(crc16 & 0x8000 >>j)
 	break;
@@ -99,36 +95,34 @@ end:
  return crc16;
 }
 
-int pack_up(const char *in_data,ushort *data_len,char *out_data)
+void pack_up(const char *in_data,ushort *data_len,char *out_data)
 {
 	int stx,comRet,i;
-	static int seq=0;
 	char *dataPoint;
 	ushort crc,dataLen;
 	uchar crcBuf[2];
 	char *tmpPoint;
 
 #ifdef DEBUG
-	uchar temp_test[600]={0};	
+	uchar temp_test[200]={0};	
 #endif
 	if(in_data==NULL || *data_len==0 || out_data==NULL)
 	{
 		ScrClrLine(0,1);
 		ScrPrint(0,1,1,"param err\n");
-		return 1;
+		return ;
 	}
 	tmpPoint=out_data;
 	dataLen=*data_len;
-
+//loop:
+//while(1)
+//{
 	dataPoint=tmpPoint;
 	stx=0x02;
 	out_data[0]=stx;
-	out_data[1]=(seq>>8) & 0xFF;//store as bigEndian
-#ifdef DEBUG
-	out_data[1]=0;
-#endif
-	
-	out_data[2]=seq & 0xFF;
+	out_data[1]=(glCount>>8) & 0xFF;//store as bigEndian
+
+	out_data[2]=glCount & 0xFF;
 	dataPoint+=3;
 	memcpy(dataPoint,in_data,dataLen);
 	dataPoint+=dataLen;
@@ -138,33 +132,36 @@ int pack_up(const char *in_data,ushort *data_len,char *out_data)
 	memcpy(dataPoint,crcBuf,2);
 	dataPoint+=2;
 	*data_len=(dataPoint-out_data);
+	comRet=PortOpen(0,"115200,8,n,1");
 #ifdef DEBUG
 	PrnInit();
-	DatBcdToAsc(temp_test,out_data,(*data_len)*2);
-	PrnStr("%s\n",temp_test);
+	PrnStr("\n1.comRet=%d\n",comRet);
 	PrnStart();
 #endif
-
-	
-	comRet=PortOpen(0,"115200,8,n,1");
 	if(comRet)
 	{
 		ScrClrLine(0,1);
 		ScrPrint(0,1,1,"PortOpen err0X%02X\n",comRet);
-		return 1;
+		getkey();
+		return;
 	}
+
+#ifdef DEBUG
+	PrnInit();
+	DatBcdToAsc(temp_test,out_data,(*data_len)*2);
+	PrnStr("sendlen=%d :s\n",*data_len);
+	PrnStr("%s\n",temp_test);
+	PrnStart();
+#endif
+
 	for(i=0;i<*data_len;i++)
 	{
 		comRet=PortSend(0,out_data[i]);
-		if(comRet)
-		{
-			ScrClrLine(0,1);
-			ScrPrint(0,1,1,"PortSend err\n",comRet);
-			return 1;
-		}
 	}
-	seq++;
-	PortClose(0);
+
+	glCount++;
+	PortClose(0); 
+//}//while
 
 }
 
@@ -172,61 +169,51 @@ int rcv_packet(char *packet,ushort *pack_len)
 {
 	ushort packLen;
 	int comRet,offset;
-	uchar getData[300];
+	uchar getData[100];
 #ifdef DEBUG
-	uchar temp_test[600]={0};
-	
+	uchar temp_test[200]={0};
 #endif
 	offset=0;
-	
-	TimerSet(0,30);
-	while(1)
-	{
-	          comRet=PortOpen(0,"115200,8,n,1");
+	memset(getData,0,sizeof(getData));
+	comRet=PortOpen(0,"115200,8,n,1");
+    PortReset(0);
          	if(comRet)
 			{
 		       ScrClrLine(0,1);
 	     	   ScrPrint(0,1,1,"rcv_PortOpen err0X%02X\n",comRet);
 		       getkey();
 		       return 1;
-	}
-			comRet=PortRecv(0,&getData[offset++],1000);
-			if(comRet==0xff)
-		{
-			ScrClrLine(0,1);
-			ScrPrint(0,1,1,"recdata timeout\n",comRet);
-			getkey();
-			return 0xff;
-		}
-		else if(comRet!=0) break;
-		if(!TimerCheck(0))
-		{
-			ScrClrLine(0,1);
-			ScrPrint(0,1,1,"comm timeout\n",comRet);
-			getkey();
-			return 2;
-		}
+			}
+	comRet=PortRecvs(0,getData,15,1000);
+	if(comRet>0) PortClose(0);
+	else 
+	{
+		glCount--;
 		PortClose(0);
+		return 2;
 	}
+
 #ifdef DEBUG
 	PrnInit();
-	DatBcdToAsc(temp_test,getData,offset*2);
-	PrnStr("%s\n",rcv_packet);
+	DatBcdToAsc(temp_test,getData,comRet*2);
+	PrnStr("offset=%d r:\n",comRet);
 	PrnStr("%s\n",temp_test);
 	PrnStart();
 #endif
 	return 0;
 }
+
 int event_main(ST_EVENT_MSG *msg)
 {
 	return 0;
 }
+
 int main(void)
 {
-    uchar bufSend[300],ucKey;
-	uchar bufRec[300];
-	ushort lenSend;
-    int i;
+    uchar bufSend[100],ucKey;
+	uchar bufRec[100];
+	ushort lenSend,*outputLen;
+    int i,count,ret;
 	
 	SystemInit();
 	while(1)
@@ -240,24 +227,36 @@ int main(void)
 	} while(ucKey!=KEY1 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
 	if(ucKey==KEY1 || ucKey==KEYENTER)
 	{
-		i=0;
-		
-		while(i<2)
+		count=0;
+		while(count<20)
 		{
 		memset(bufSend,0,sizeof(bufSend));
 		memset(bufRec,0,sizeof(bufRec));
-		PciGetRandom(bufSend);
-		//strcpy(bufSend,"\x12\x34\x56\x78");
-		lenSend=strlen(bufSend);
-		
+//		for(i=0;i<100;i++)
+		PciGetRandom(bufSend);;
+		//memcpy(bufSend,"\x00\x00\x56\x78",4);
+		lenSend=8;
+		TimerSet(0,300);
+repeat: 
 		pack_up(bufSend,&lenSend,bufRec);
-		rcv_packet(bufRec,&lenSend);
-      
-		i++;
+		ret=rcv_packet(bufRec,&outputLen);
+		if(!TimerCheck(0))
+		{
+			ScrClrLine(0,1);
+			ScrPrint(0,1,1,"comm timeout\n");
+			getkey();
+			return 1;
 		}
+		if(ret==1) break;
+		if(ret==2) 
+		{	
+			memset(bufRec,0,sizeof(bufRec));
+			lenSend=8;
+			goto repeat;
+		}
+		count++;
+		}//while
 	}
-
-   
 	if(ucKey==KEYCANCEL) return 1;
 	}
 	return 0;
