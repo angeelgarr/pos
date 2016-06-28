@@ -16,7 +16,7 @@ const APPINFO AppInfo={
 	0,
 	""
 };
-#ifdef DEBUG
+//#ifdef DEBUG
 #define byte uchar
 #define word ushort
 void DatBcdToAsc(byte *Asc, byte *Bcd, word Asc_len)
@@ -43,7 +43,7 @@ void DatBcdToAsc(byte *Asc, byte *Bcd, word Asc_len)
 		is_first = !is_first;
 	}
 }
-#endif
+//#endif
 ushort get_crc16_short(const uchar *data_block,int data_len)
 {
   long totalBit,i,j;
@@ -133,15 +133,10 @@ void pack_up(const char *in_data,ushort *data_len,char *out_data)
 int rcv_packet(char *packet,ushort *pack_len)
 {
 	int comRet;
-	ushort packLen,getCRC;
-	uchar getData[200000];
+	uchar getData[10000];
 	uchar *dataPoint;
-	uchar bufCRC[2],*tmpPoint;
 	int offset;
-
-#ifdef DEBUG
-	uchar temp_test[400000]={0};
-#endif
+   // uchar temp_test[20000];
 
 	memset(getData,0,sizeof(getData));
 	dataPoint=getData;
@@ -160,30 +155,12 @@ int rcv_packet(char *packet,ushort *pack_len)
 		}
    
 	comRet=PortRecv(0,&dataPoint[offset],1000);
-	if(dataPoint[0]!=0 && comRet!=0) break;
+	if(dataPoint[0]!=0 && comRet!=0) break;       
+	if(comRet!=0) return 2;   //if no data,send again
 	offset++;
 	}
 	memcpy(packet,getData,offset);
 	*pack_len=offset;
-	getCRC=get_crc16_short(&dataPoint[1],offset-3);    //verify as crc value 
-	bufCRC[0]=(getCRC>>8) & 0xFF;
-	bufCRC[1]=getCRC & 0xFF;
-	if(packet[0]!=0x02 || strncmp(bufCRC,dataPoint+offset-2,2))
-	{
-		ScrClrLine(0,1);
-		ScrPrint(0,0,1,"crc diff:%d",offset);
-		getkey();
-		return 1;
-	}
-
-
-#ifdef DEBUG
-	PrnInit();
-	DatBcdToAsc(temp_test,getData,comRet*2);
-	PrnStr("offset=%d r:\n",*pack_len);
-	PrnStr("%s\n",temp_test);
-	PrnStart();
-#endif
 	return 0;
 }
 
@@ -195,10 +172,13 @@ int event_main(ST_EVENT_MSG *msg)
 int main(void)
 {
     uchar bufSend[200000],outputBuf[200000],ucKey;
-	uchar bufRec[200000];
-	ushort lenSend,outputLen;
-    int i,count,ret,comRet;
-	
+	uchar bufAllRec[200000];uchar bufRec[10000];
+	uint allOutPutLen;
+    uint i,k,j,count,ret,comRet,array[100];
+	ushort getCRC;uchar bufCRC[2];
+	ushort outputLen,lenSend;
+	//uchar test_buf[40000];
+
 	SystemInit();
 	while(1)
 	{
@@ -216,8 +196,7 @@ int main(void)
 		{
 		memset(bufSend,0,sizeof(bufSend));
 		memset(outputBuf,0,sizeof(outputBuf));
-		memset(bufRec,0,sizeof(bufRec));
-		for(i=0;i<5000;i++) //5000*8
+		for(i=0;i<8000;i++) //5000*8
 		PciGetRandom(bufSend+i*8);
 		//memcpy(bufSend,"\x00\x00\x56\x78",4);
 		lenSend=i<<3;
@@ -225,6 +204,27 @@ int main(void)
 		ScrClrLine(0,1);
 		ScrPrint(0,0,1,"SENDING DATA...");
 repeat: 
+		memset(bufAllRec,0,sizeof(bufAllRec));
+		allOutPutLen=0;
+		if(lenSend<=8192) 
+		{
+			j=1;
+			array[0]=lenSend;
+		}
+		else
+		{
+			if(lenSend%8192==0) 
+			{
+					j=lenSend/8192;
+					for(i=0;i<j;i++) array[i]=8192;
+			}
+			else 
+			{
+				j=lenSend/8192+1;
+				for(i=0;i<j-1;i++)array[i]=8192;
+				array[i]=lenSend-8192*i;
+			}
+		}
 		comRet=PortOpen(0,"115200,8,n,1");
 		if(comRet)
 	{
@@ -233,27 +233,52 @@ repeat:
 		getkey();
 		return 1;
 	}
-		for(i=0;i<lenSend;i++)
-	{
-		comRet=PortSend(0,outputBuf[i]);
-		if(comRet)
+	    for(k=0;k<j;k++)
 		{
-			ScrClrLine(0,1);
-			ScrPrint(0,0,1,"PortSend err comRet:%d",comRet);
-			getkey();
-			return 1;
-		} 
-	}
-		ret=rcv_packet(bufRec,&outputLen);
-		PortClose(0);
-		if(ret==1) return;
-		if(ret==2 || lenSend!=outputLen) goto repeat;
-		for(i=0;i<lenSend;i++)
+			memset(bufRec,0,sizeof(bufRec));
+			for(i=0;i<array[k];i++)
 			{
-				if(outputBuf[i]!=bufRec[i])
+				comRet=PortSend(0,outputBuf[i+k*8192]);
+				if(comRet)
 				{
 					ScrClrLine(0,1);
-					ScrPrint(0,0,1,"DATA DIFF:count=%d",count);
+					ScrPrint(0,0,1,"PortSend err comRet:%d",comRet);
+					getkey();
+					return 1;
+				}
+			} 
+			ret=rcv_packet(bufRec,&outputLen);
+			switch(ret)
+			{
+			 case 0: 
+				  memcpy(bufAllRec+allOutPutLen,bufRec,outputLen);
+				  allOutPutLen+=outputLen;
+				  break;
+			 case 2:                   //if over time or plug off line ,send and rec again
+					PortClose(0);
+					goto repeat;
+			}
+		}
+//	ScrClrLine(0,1);
+//	ScrPrint(0,0,1,"len=%d.output=%d,allOut=%d",lenSend,outputLen,allOutPutLen);
+//	getkey();
+
+	getCRC=get_crc16_short(&bufAllRec[1],allOutPutLen-3);  //verify as crc value
+	bufCRC[0]=(getCRC>>8) & 0xFF;
+	bufCRC[1]=getCRC & 0xFF;
+	if(bufAllRec[0]!=0x02 || strncmp(bufCRC,&bufAllRec[allOutPutLen-2],2))
+	{
+		ScrClrLine(0,1);
+		ScrPrint(0,0,1,"crc diff");
+		getkey();
+		return 1;
+	}
+		for(i=0;i<lenSend;i++)
+			{
+				if(outputBuf[i]!=bufAllRec[i])
+				{
+					ScrClrLine(0,1);
+					ScrPrint(0,0,1,"DATA DIFF:i=%d",i);
 					getkey();
 					return 1;
 				}
@@ -262,7 +287,8 @@ repeat:
 		count++;
 		}//while
 		ScrClrLine(0,3);
-		ScrPrint(0,0,1,"SAME DATA");	
+		ScrPrint(0,0,1,"SAME DATA");
+		PortClose(0);
 		glCount=0;
 		getkey();
 		}//if(ucKey==KEY1 || ucKey==KEYENTER)
