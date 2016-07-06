@@ -59,7 +59,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
  while(i<totalBit)
  {
 
-  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //ä¿è¯shortä¸­åŠ è½½16ä½bit
+  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //±£Ö¤shortÖĞ¼ÓÔØ16Î»bit
   {
     crc16<<=1;
 	if(i<data_len<<3)
@@ -74,7 +74,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 		goto end;
 	}
 
-	if(crc16 & 0x8000)  //å¦‚æœç¬¬16ä½ä¸º1åˆ™å‘å·¦ç§»ä¸€ä½å¹¶å‘åè¡¥ä¸€ä½
+	if(crc16 & 0x8000)  //Èç¹ûµÚ16Î»Îª1ÔòÏò×óÒÆÒ»Î»²¢Ïòºó²¹Ò»Î»
 	{
 		rightNumber=15;
 		flag=1;
@@ -82,7 +82,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 	}
 
 end:
-	for(j=0;j<16;j++)   //ä»å·¦å¼€å§‹æ‰¾ç¬¬ä¸€ä½1
+	for(j=0;j<16;j++)   //´Ó×ó¿ªÊ¼ÕÒµÚÒ»Î»1
 	{
 	if(crc16 & 0x8000 >>j)
 	break;
@@ -172,7 +172,7 @@ int rcv_packet(char *packet,ushort *pack_len)
 			return 2;
 		}
 //		if(glRecCount==0)
-//		ScrPrint(0,2,1,"0X%02X",dataPoint[0]);//å±å¹•æŸ¥çœ‹å‘é€æƒ…å†µ
+//		ScrPrint(0,2,1,"0X%02X",dataPoint[0]);//ÆÁÄ»²é¿´·¢ËÍÇé¿ö
 	}
 	memcpy(packet,getData,offset);
 	*pack_len=offset;
@@ -182,7 +182,14 @@ int rcv_packet(char *packet,ushort *pack_len)
 	if(bufCRC[0]!=packet[offset-2] || bufCRC[1]!=packet[offset-1])
 	{
 		ScrClrLine(0,1);
-		ScrPrint(0,0,1,"crc diff,%d",offset);
+		ScrPrint(0,0,1,"CRC DIFF,%d",offset);
+		getkey();
+		return 2;
+	}
+	if(glCount!=((packet[1]<<8)+packet[2]))
+	{
+		ScrClrLine(0,1);
+		ScrPrint(0,0,1,"SEQ ERR,%d",glCount);
 		getkey();
 		return 2;
 	}
@@ -224,12 +231,15 @@ int main(void)
 		ScrCls();
 		kbflush();
 		ScrPrint(0,0,0x01|0x80,"1.TEST COMM     ");
+		ScrPrint(0,1,0x01|0x80,"2.CREATE FILE   ");
 
-	do {
-		ucKey=getkey();
-	} while(ucKey!=KEY1 && ucKey!=KEY5 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
-	if(ucKey==KEY5)
+	do{
+	   ucKey=getkey();
+	} while(ucKey!=KEY1 && ucKey!=KEY2 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
+	/*if(ucKey==KEY2)*/
+	switch(ucKey)
 	{
+	case KEY2:
 		for(i=0;i<1000;i++)
 		{
         memset(randomBuf,0,sizeof(randomBuf));
@@ -242,17 +252,17 @@ int main(void)
             return 1;
         }
 		}
-	}
-	lenSend=8000;
-	fdRet=seek(fd,0,SEEK_SET);
-	if(fdRet<0)
+		break;
+	case KEY1:
+	case KEYENTER:
+		lenSend=8000;
+		fdRet=seek(fd,0,SEEK_SET);
+		if(fdRet<0)
         {
             ScrClrLine(0,1);
             ScrPrint(0,0,1,"open file errr%d",errno);
             return 1;
         }
-	if(ucKey==KEY1 || ucKey==KEYENTER)
-	{
 		count=0;
 		while(count<(lenSend/400))
 		{
@@ -280,7 +290,7 @@ repeat:
         comRet=PortSends(0,outputBuf,fRet);
         if(comRet)
         {
-            ScrClrLine(0,1);            //å¦‚æœçº¿è¢«æ‹”æ‰ï¼Œé‡å‘
+            ScrClrLine(0,1);            //Èç¹ûÏß±»°Îµô£¬ÖØ·¢
             ScrPrint(0,0,1,"PortSends err comRet:%d",comRet);
             goto repeat;
 
@@ -299,7 +309,7 @@ repeat:
                 goto repeat;
         }
 		count++;
-		}//while
+		}//switch
 		fd=open("send",O_CREATE|O_RDWR);
 		if(fd<0)
 		{
@@ -307,7 +317,7 @@ repeat:
 			ScrPrint(0,0,1,"open file errt%d",errno);
 			return 1;
 		}
-       glFd=open("recv",O_CREATE|O_RDWR);
+		glFd=open("recv",O_CREATE|O_RDWR);
 		if(glFd<0)
 		{
 			ScrClrLine(0,1);
@@ -330,7 +340,6 @@ repeat:
             ScrPrint(0,0,1,"file read err3");
             return 1;
         }
-
         for(i=0;i<lenSend;i++)
         {
             if(getAllSend[i]!=getAllRecv[i])
@@ -347,8 +356,11 @@ repeat:
 		close(fd);close(glFd);
 		//remove("send");remove("recv");
 		getkey();
-		}//if(ucKey==KEY1 || ucKey==KEYENTER)
-		if(ucKey==KEYCANCEL) return 1;
-	}
+		break;//case KEY1 or KEYENTER
+		case KEYCANCEL:
+
+		      return 1;
+	}//switch
+	}//while(1)
 	return 0;
 }
