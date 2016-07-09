@@ -1,5 +1,6 @@
 #include <posapi.h>
 
+#define COMPORT 0
 int glCount=0;
 int glFd=0;
 //#define DEBUG
@@ -150,31 +151,30 @@ int rcv_packet(char *packet,ushort *pack_len)
 			ScrClrLine(0,3);
 			ScrPrint(0,0,1,"COM timeout\n");
 			getkey();
-			ScrClrLine(0,3);
-			ScrPrint(0,0,1,"SENDING DATA...");
+			//ScrClrLine(0,3);
+			//ScrPrint(0,0,1,"SENDING DATA...");
 			return 2;
 		}
-		comRet=PortRecv(0,&dataPoint[offset++],1000);
+		comRet=PortRecv(COMPORT,&dataPoint[offset++],1000);
 		if(comRet)return 2;
-		if(dataPoint[0]!=0X02)
-		{
-			ScrClrLine(0,3);
-			ScrPrint(0,0,1,"Accept ERR");
-			return 2;
-		}
         tempLen=(dataPoint[3]<<8)+dataPoint[4];
 		if(offset==tempLen+7) break;
 		if(offset>2048)
 		{
 			ScrClrLine(0,3);
 			ScrPrint(0,0,1,"OVER Arrange");
-			getkey();
+			//getkey();
 			return 2;
 		}
 //		if(glRecCount==0)
 //		ScrPrint(0,2,1,"0X%02X",dataPoint[0]);//屏幕查看发送情况
 	}
-
+	if(dataPoint[0]!=0X02)
+		{ 
+			ScrClrLine(0,3);
+			ScrPrint(0,0,1,"dataPoint[0]!= 0X02");
+			return 2;
+		}
     getCRC=get_crc16_short(getData+1,offset-3);  //verify as crc value
 	bufCRC[0]=(getCRC>>8) & 0xFF;
 	bufCRC[1]=getCRC & 0xFF;
@@ -251,17 +251,21 @@ uchar SendRecvData(int fd)
         return 1;
     }
 	pack_up(bufSend,&fRet,outputBuf);
-	ScrClrLine(0,3);
-	ScrPrint(0,0,1,"SENDING DATA...");
+	//ScrClrLine(0,3);
+	//ScrPrint(0,0,1,"SENDING DATA...");
 repeat:
-    comRet=PortSends(0,outputBuf,fRet);
+    comRet=PortSends(COMPORT,outputBuf,fRet);
     if(comRet)
     {
-        ScrClrLine(0,3);            //如果线被拔掉，重发
-        ScrPrint(0,0,1,"PortSends err comRet:%d",comRet);
+        ScrClrLine(0,1);            //如果线被拔掉，重发
+        ScrPrint(0,0,1,"PortSends Ret:%d",comRet);
+		ScrClrLine(2,3);
+        ScrPrint(0,2,1,"sendind %d/100",count+1);
         goto repeat;
 
     }
+	ScrClrLine(0,3);
+    ScrPrint(0,0,1,"sending %d/100",count);
     memset(bufRec,0,sizeof(bufRec));
     outputLen=0;
     ret=rcv_packet(bufRec,&outputLen);
@@ -270,8 +274,8 @@ repeat:
         case 0:
             break;
         case 2:                   //if over time or plug off line ,send and rec again
-            ScrClrLine(0,3);
-            ScrPrint(0,0,1,"sending again");
+            //ScrClrLine(0,3);
+            //ScrPrint(0,0,1,"sending again");
             goto repeat;
     }
 	count++;
@@ -322,7 +326,7 @@ repeat:
 	}
 	ScrClrLine(0,3);
 	ScrPrint(0,0,1,"SAME DATA");
-	PortClose(0);glCount=0;
+	PortClose(COMPORT);glCount=0;
 	close(fd);close(glFd);
 	//remove("send");remove("recv");
 	getkey();
@@ -355,7 +359,7 @@ int main(void)
         ScrPrint(0,0,1,"open recv err%d",errno);
         return 1;
     }
-	comRet=PortOpen(0,"115200,8,n,1");
+	comRet=PortOpen(COMPORT,"115200,8,n,1");
 	if(comRet)
     {
 	ScrClrLine(0,3);
@@ -375,6 +379,8 @@ int main(void)
 	switch(ucKey)
 	{
 	case KEY2:
+		ScrClrLine(0,3);
+		ScrPrint(0,0,0x01,"Creating File");
 		ret=GeneData(fd);
 		if(1==ret)return 1;
 		break;
@@ -389,3 +395,4 @@ int main(void)
 	}//while(1)
 	return 0;
 }
+
