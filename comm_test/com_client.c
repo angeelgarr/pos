@@ -60,7 +60,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
  while(i<totalBit)
  {
 
-  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //±£Ö¤shortÖĞ¼ÓÔØ16Î»bit
+  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //ä¿è¯shortä¸­åŠ è½½16ä½bit
   {
     crc16<<=1;
 	if(i<data_len<<3)
@@ -75,7 +75,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 		goto end;
 	}
 
-	if(crc16 & 0x8000)  //Èç¹ûµÚ16Î»Îª1ÔòÏò×óÒÆÒ»Î»²¢Ïòºó²¹Ò»Î»
+	if(crc16 & 0x8000)  //å¦‚æœç¬¬16ä½ä¸º1åˆ™å‘å·¦ç§»ä¸€ä½å¹¶å‘åè¡¥ä¸€ä½
 	{
 		rightNumber=15;
 		flag=1;
@@ -83,7 +83,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 	}
 
 end:
-	for(j=0;j<16;j++)   //´Ó×ó¿ªÊ¼ÕÒµÚÒ»Î»1
+	for(j=0;j<16;j++)   //ä»å·¦å¼€å§‹æ‰¾ç¬¬ä¸€ä½1
 	{
 	if(crc16 & 0x8000 >>j)
 	break;
@@ -167,7 +167,7 @@ int rcv_packet(char *packet,ushort *pack_len)
 			return 2;
 		}
 //		if(glRecCount==0)
-//		ScrPrint(0,2,1,"0X%02X",dataPoint[0]);//ÆÁÄ»²é¿´·¢ËÍÇé¿ö
+//		ScrPrint(0,2,1,"0X%02X",dataPoint[0]);//å±å¹•æŸ¥çœ‹å‘é€æƒ…å†µ
 	}
 	if(dataPoint[0]!=0X02)
 		{ 
@@ -257,7 +257,7 @@ repeat:
     comRet=PortSends(COMPORT,outputBuf,fRet);
     if(comRet)
     {
-        ScrClrLine(0,1);            //Èç¹ûÏß±»°Îµô£¬ÖØ·¢
+        ScrClrLine(0,1);            //å¦‚æœçº¿è¢«æ‹”æ‰ï¼Œé‡å‘
         ScrPrint(0,0,1,"PortSends Ret:%d",comRet);
 		ScrClrLine(2,3);
         ScrPrint(0,2,1,"sendind %d/100",count+1);
