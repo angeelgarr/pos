@@ -107,7 +107,7 @@ void pack_up(const char *in_data,ushort *data_len,char *out_data)
 	if(in_data==NULL || *data_len==0 || out_data==NULL)
 	{
 		ScrClrLine(0,3);
-		ScrPrint(0,1,1,"param ertempLen+7r\n");
+		ScrPrint(0,1,1,"PARA ERR");
 		return ;
 	}
 	dataLen=*data_len;
@@ -166,8 +166,6 @@ int rcv_packet(char *packet,ushort *pack_len)
 			//getkey();
 			return 2;
 		}
-//		if(glRecCount==0)
-//		ScrPrint(0,2,1,"0X%02X",dataPoint[0]);//屏幕查看发送情况
 	}
 	if(dataPoint[0]!=0X02)
 		{
@@ -202,72 +200,37 @@ int rcv_packet(char *packet,ushort *pack_len)
 	return 0;
 }
 
-uchar SendRecvData(int fd)
+uchar SendRecvData(void)
 {
-	uchar bufSend[3000],bufRec[3000],outputBuf[3000];
-	uchar getAllRecv[10241];uchar getAllSend[10241];
-    uint i,j,count,ret,comRet,lenSend;
-	ushort outputLen,fRet;
-	int fdRet;
+	uchar bufRec[3000],outputBuf[3000];
+    uint ret,comRet;
+	ushort outputLen;
 
-	lenSend=102400;
-	while(count<(lenSend/1024))
-	{
-	memset(bufSend,0,sizeof(bufSend));
-	memset(outputBuf,0,sizeof(outputBuf));
-    fRet=read(fd,bufSend,1024);
-    if(fRet!=1024)
+	while(1)
     {
-        ScrClrLine(0,3);
-        ScrPrint(0,0,1,"file read err8");
-        return 1;
-    }
-	pack_up(bufSend,&fRet,outputBuf);
-	//ScrClrLine(0,3);
-	//ScrPrint(0,0,1,"SENDING DATA...");
-repeat:
-    comRet=PortSends(COMPORT,outputBuf,fRet);
-    if(comRet)
-    {
-        ScrClrLine(0,1);            //如果线被拔掉，重发
-        ScrPrint(0,0,1,"PortSends Ret:%d",comRet);
-		ScrClrLine(2,3);
-        ScrPrint(0,2,1,"sendind %d/100",count+1);
-        goto repeat;
-
-    }
-	ScrClrLine(0,3);
-    ScrPrint(0,0,1,"sending %d/100",count);
     memset(bufRec,0,sizeof(bufRec));
+    memset(outputBuf,0,sizeof(outputBuf));
     outputLen=0;
     ret=rcv_packet(bufRec,&outputLen);
     switch(ret)
     {
         case 0:
             break;
-        case 2:                   //if over time or plug off line ,send and rec again
-            //ScrClrLine(0,3);
-            //ScrPrint(0,0,1,"sending again");
-            goto repeat;
+        case 2:
+            return 2;
+        default:
+            return 1;
     }
-	count++;
-	}//switch
-	fd=open("send",O_CREATE|O_RDWR);
-	if(fd<0)
-	{
-		ScrClrLine(0,3);
-		ScrPrint(0,0,1,"open file errt%d",errno);
-		return 1;
-	}
-	glFd=open("recv",O_CREATE|O_RDWR);
-	if(glFd<0)
-	{
-		ScrClrLine(0,3);
-		ScrPrint(0,0,1,"open recv err3%d",errno);
-		return 1;
-	}
+	pack_up(bufRec,&outputLen,outputBuf);
+    comRet=PortSends(COMPORT,outputBuf,outputLen);
+    if(comRet)
+    {
+        ScrClrLine(0,1);
+        ScrPrint(0,0,1,"PortSends Ret:%d",comRet);
+        return 2;
+    }
+    }
 	PortClose(COMPORT);
-	getkey();
 	return 0;
 }
 
@@ -295,18 +258,19 @@ int main(void)
 		kbflush();
 		ScrPrint(0,0,0x01,"1.COM SERVER    ");
 	do{
+
 	   ucKey=getkey();
+
 	}  while(ucKey!=KEY1 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
 	switch(ucKey)
 	{
 	case KEY1:
 	case KEYENTER:
-		ret=SendRecvData(fd);
-		if(1==ret)return 1;
-		break;//case KEY1 or KEYENTER
+		ret=SendRecvData();
+		return ret;
 		case KEYCANCEL:
 		      return 1;
-	}//switch
+	}
 	}//while(1)
 	return 0;
 }
