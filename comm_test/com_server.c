@@ -2,7 +2,7 @@
 
 #define COMPORT 0
 int glCount=0;
-int glFd=0;
+
 //#define DEBUG
 
 const APPINFO AppInfo={
@@ -60,7 +60,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
  while(i<totalBit)
  {
 
-  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //ä¿è¯shortä¸­åŠ è½½16ä½bit
+  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //±£Ö¤shortÖÐ¼ÓÔØ16Î»bit
   {
     crc16<<=1;
 	if(i<data_len<<3)
@@ -75,7 +75,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 		goto end;
 	}
 
-	if(crc16 & 0x8000)  //å¦‚æžœç¬¬16ä½ä¸º1åˆ™å‘å·¦ç§»ä¸€ä½å¹¶å‘åŽè¡¥ä¸€ä½
+	if(crc16 & 0x8000)  //Èç¹ûµÚ16Î»Îª1ÔòÏò×óÒÆÒ»Î»²¢Ïòºó²¹Ò»Î»
 	{
 		rightNumber=15;
 		flag=1;
@@ -83,7 +83,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 	}
 
 end:
-	for(j=0;j<16;j++)   //ä»Žå·¦å¼€å§‹æ‰¾ç¬¬ä¸€ä½1
+	for(j=0;j<16;j++)   //´Ó×ó¿ªÊ¼ÕÒµÚÒ»Î»1
 	{
 	if(crc16 & 0x8000 >>j)
 	break;
@@ -106,8 +106,8 @@ void pack_up(const char *in_data,ushort *data_len,char *out_data)
 #endif
 	if(in_data==NULL || *data_len==0 || out_data==NULL)
 	{
-		ScrClrLine(0,3);
-		ScrPrint(0,1,1,"PARA ERR");
+		ScrClrLine(2,3);
+		ScrPrint(0,2,1,"PARA ERR");
 		return ;
 	}
 	dataLen=*data_len;
@@ -128,7 +128,6 @@ void pack_up(const char *in_data,ushort *data_len,char *out_data)
 	dataPoint+=2;
 	*data_len=(dataPoint-out_data);
 	glCount++;
-
 }
 
 int rcv_packet(char *packet,ushort *pack_len)
@@ -148,40 +147,46 @@ int rcv_packet(char *packet,ushort *pack_len)
 	{
 		if(!TimerCheck(0))
 		{
-			ScrClrLine(0,3);
-			ScrPrint(0,0,1,"COM timeout\n");
+			ScrClrLine(2,3);
+			ScrPrint(0,2,1,"COM timeout\n");
 			getkey();
 			//ScrClrLine(0,3);
 			//ScrPrint(0,0,1,"SENDING DATA...");
 			return 2;
 		}
 		comRet=PortRecv(COMPORT,&dataPoint[offset++],1000);
-		if(comRet)return 2;
+		if(comRet)
+		{
+		ScrClrLine(0,1);
+		ScrPrint(0,0,1,"waitting...");
+		return 1;
+		}
         tempLen=(dataPoint[3]<<8)+dataPoint[4];
 		if(offset==tempLen+7) break;
 		if(offset>2048)
 		{
-			ScrClrLine(0,3);
-			ScrPrint(0,0,1,"OVER Arrange");
+			ScrClrLine(2,3);
+			ScrPrint(0,2,1,"OVER Arrange");
 			//getkey();
 			return 2;
 		}
 	}
 	if(dataPoint[0]!=0X02)
 		{
-			ScrClrLine(0,3);
-			ScrPrint(0,0,1,"dataPoint[0]!= 0X02");
+			ScrClrLine(2,3);
+			ScrPrint(0,2,1,"dataPoint[0]!= 0X02");
 			return 2;
 		}
     getCRC=get_crc16_short(getData+1,offset-3);  //verify as crc value
 	bufCRC[0]=(getCRC>>8) & 0xFF;
-	bufCRC[1]=getCRC & 0xFF;
+	bufCRC[1]=getCRC & 0xFF; 
 	if(bufCRC[0]!=getData[offset-2] || bufCRC[1]!=getData[offset-1])
 	{
-		ScrClrLine(0,3);
-		ScrPrint(0,0,1,"CRC DIFF,%d",offset);
+		ScrClrLine(2,3);
+		ScrPrint(0,2,1,"CRC DIFF,%d",offset);
 		return 2;
 	}
+	/**
 	if((glCount-1)!=((getData[1]<<8)+getData[2]))
 	{
 		ScrClrLine(0,3);
@@ -195,14 +200,15 @@ int rcv_packet(char *packet,ushort *pack_len)
 			return 2;
 		}
 	}
-	memcpy(packet,getData,offset);
-	*pack_len=offset;
+	**/
+	memcpy(packet,getData+5,offset-7);
+	*pack_len=offset-7;
 	return 0;
 }
 
 uchar SendRecvData(void)
 {
-	uchar bufRec[3000],outputBuf[3000];
+	char bufRec[3000],outputBuf[3000];
     uint ret,comRet;
 	ushort outputLen;
 
@@ -216,19 +222,29 @@ uchar SendRecvData(void)
     {
         case 0:
             break;
+		case 1:
+			continue;
         case 2:
             return 2;
         default:
-            return 1;
+            return 2;
     }
 	pack_up(bufRec,&outputLen,outputBuf);
-    comRet=PortSends(COMPORT,outputBuf,outputLen);
+	if(0x00==PortTxPoolCheck(COMPORT))
+	{
+	//DelayMs(500);
+    comRet=PortSends(COMPORT,(uchar*)outputBuf,outputLen);
     if(comRet)
     {
-        ScrClrLine(0,1);
-        ScrPrint(0,0,1,"PortSends Ret:%d",comRet);
+        ScrClrLine(2,3);
+        ScrPrint(0,2,1,"PortSends Ret:%d",comRet);
         return 2;
     }
+	
+	ScrClrLine(0,1);
+    ScrPrint(0,0,1,"sending %d",glCount);
+	if(glCount==100) glCount=0;
+	}
     }
 	PortClose(COMPORT);
 	return 0;
@@ -248,29 +264,12 @@ int main(void)
 	comRet=PortOpen(COMPORT,"115200,8,n,1");
 	if(comRet)
     {
-	ScrClrLine(0,3);
-	ScrPrint(0,0,1,"PortOpen err0X%02X\n",comRet);
+	ScrClrLine(2,3);
+	ScrPrint(0,2,1,"PortOpen err0X%02X\n",comRet);
 	return 1;
     }
-	while(1)
-	{
-		ScrCls();
-		kbflush();
-		ScrPrint(0,0,0x01,"1.COM SERVER    ");
-	do{
-
-	   ucKey=getkey();
-
-	}  while(ucKey!=KEY1 && ucKey!=KEYENTER &&ucKey!=KEYCANCEL);
-	switch(ucKey)
-	{
-	case KEY1:
-	case KEYENTER:
-		ret=SendRecvData();
-		return ret;
-		case KEYCANCEL:
-		      return 1;
-	}
-	}//while(1)
-	return 0;
+	ScrClrLine(0,1);
+	ScrPrint(0,0,1,"waitting...");
+	ret=SendRecvData();
+	return ret;
 }
