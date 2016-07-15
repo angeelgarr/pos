@@ -105,7 +105,7 @@ void pack_up(const char *in_data,ushort *data_len,char *out_data)
 	{
 		ScrClrLine(2,3);
 		ScrPrint(0,2,1,"PARA ERR");
-		return ;
+		return;
 	}
 	dataLen=*data_len;
 	dataPoint=out_data;
@@ -153,7 +153,7 @@ int rcv_packet(char *packet,ushort *pack_len)
 		{
 		ScrClrLine(0,1);
 		ScrPrint(0,0,1,"waitting...");
-		return 1;
+		return 2;
 		}
         tempLen=(dataPoint[3]<<8)+dataPoint[4];
 		if(offset==tempLen+7) break;
@@ -202,12 +202,10 @@ uchar SendRecvData(void)
     {
         case 0:
             break;
-		case 1:
+		case 2:
 			continue;
-        case 2:
-            return 2;
         default:
-            return 3;
+            break;
     }
 	pack_up(bufRec,&outputLen,outputBuf);
 	if(0x00==PortTxPoolCheck(COMPORT))
@@ -221,7 +219,7 @@ uchar SendRecvData(void)
         return 2;
     }
 	ScrClrLine(0,1);
-    ScrPrint(0,0,1,"sending %d",glCount);
+	ScrPrint(0,0,1,"sending%d,%d",glCount,(outputBuf[3]<<8)+outputBuf[4]);
 	}
     }
 	PortClose(COMPORT);
