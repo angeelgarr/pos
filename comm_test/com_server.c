@@ -3,8 +3,6 @@
 #define COMPORT 0
 int glCount=0;
 
-//#define DEBUG
-
 const APPINFO AppInfo={
 	"COM_SERVER",
 	"APP-TEST",
@@ -17,7 +15,6 @@ const APPINFO AppInfo={
 	0,
 	""
 };
-//#ifdef DEBUG
 #define byte uchar
 #define word ushort
 void DatBcdToAsc(byte *Asc, byte *Bcd, word Asc_len)
@@ -60,7 +57,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
  while(i<totalBit)
  {
 
-  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //±£Ö¤shortÖÐ¼ÓÔØ16Î»bit
+  for(j=rightNumber;j<16 && i<totalBit;i++,j++) //ä¿è¯shortä¸­åŠ è½½16ä½bit
   {
     crc16<<=1;
 	if(i<data_len<<3)
@@ -75,7 +72,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 		goto end;
 	}
 
-	if(crc16 & 0x8000)  //Èç¹ûµÚ16Î»Îª1ÔòÏò×óÒÆÒ»Î»²¢Ïòºó²¹Ò»Î»
+	if(crc16 & 0x8000)  //å¦‚æžœç¬¬16ä½ä¸º1åˆ™å‘å·¦ç§»ä¸€ä½å¹¶å‘åŽè¡¥ä¸€ä½
 	{
 		rightNumber=15;
 		flag=1;
@@ -83,7 +80,7 @@ ushort get_crc16_short(const uchar *data_block,int data_len)
 	}
 
 end:
-	for(j=0;j<16;j++)   //´Ó×ó¿ªÊ¼ÕÒµÚÒ»Î»1
+	for(j=0;j<16;j++)   //ä»Žå·¦å¼€å§‹æ‰¾ç¬¬ä¸€ä½1
 	{
 	if(crc16 & 0x8000 >>j)
 	break;
@@ -127,12 +124,11 @@ void pack_up(const char *in_data,ushort *data_len,char *out_data)
 	memcpy(dataPoint,crcBuf,2);
 	dataPoint+=2;
 	*data_len=(dataPoint-out_data);
-	glCount++;
 }
 
 int rcv_packet(char *packet,ushort *pack_len)
 {
-	int comRet,iRet;
+	int comRet;
 	uchar getData[3000];
 	uchar *dataPoint;
 	uint offset,tempLen;
@@ -150,8 +146,6 @@ int rcv_packet(char *packet,ushort *pack_len)
 			ScrClrLine(2,3);
 			ScrPrint(0,2,1,"COM timeout\n");
 			getkey();
-			//ScrClrLine(0,3);
-			//ScrPrint(0,0,1,"SENDING DATA...");
 			return 2;
 		}
 		comRet=PortRecv(COMPORT,&dataPoint[offset++],1000);
@@ -186,21 +180,7 @@ int rcv_packet(char *packet,ushort *pack_len)
 		ScrPrint(0,2,1,"CRC DIFF,%d",offset);
 		return 2;
 	}
-	/**
-	if((glCount-1)!=((getData[1]<<8)+getData[2]))
-	{
-		ScrClrLine(0,3);
-		ScrPrint(0,0,1,"SEQ ERR,%d,%d",glCount-1,(getData[1]<<8)+getData[2]);
-		iRet=rcv_packet(packet,pack_len);
-		switch(iRet)
-		{
-		case 0:
-			return 0;
-		case 2:
-			return 2;
-		}
-	}
-	**/
+	glCount=(getData[1]<<8)+getData[2];
 	memcpy(packet,getData+5,offset-7);
 	*pack_len=offset-7;
 	return 0;
@@ -227,7 +207,7 @@ uchar SendRecvData(void)
         case 2:
             return 2;
         default:
-            return 2;
+            return 3;
     }
 	pack_up(bufRec,&outputLen,outputBuf);
 	if(0x00==PortTxPoolCheck(COMPORT))
@@ -240,10 +220,8 @@ uchar SendRecvData(void)
         ScrPrint(0,2,1,"PortSends Ret:%d",comRet);
         return 2;
     }
-	
 	ScrClrLine(0,1);
     ScrPrint(0,0,1,"sending %d",glCount);
-	if(glCount==100) glCount=0;
 	}
     }
 	PortClose(COMPORT);
@@ -257,7 +235,7 @@ int event_main(ST_EVENT_MSG *msg)
 
 int main(void)
 {
-    uchar ucKey,ret;
+    uchar ret;
 	uint comRet;
 
 	SystemInit();
