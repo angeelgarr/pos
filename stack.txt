@@ -15,3 +15,12 @@ add    esp, 8                     ;释放局部变量, ESP+=8, ESP = NN-10h
 pop    ebp                        ;出栈,恢复EBP, ESP+=4, ESP = NN-0Ch
 ret    8                          ;ret返回,弹出返回地址,ESP+=4, ESP=NN-08h, 后面加操作数8为平衡堆栈,ESP+=8,ESP=NN, 恢复进入函数前的堆栈.
 }
+相当于ebp寄存器只是借过来用，借用的时候push ebp,还回去的时候pop ebp,ebp用于定位栈中的变量和参数，esp一直指向栈顶.
+-------------  high address
+    |   stack
+    |     |
+    |     |
+    |     V
+    |
+    |
+-------------  low address    
