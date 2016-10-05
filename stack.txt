@@ -1,26 +1,33 @@
-下面是按调用约定__stdcall 调用函数test(int p1,int p2)的汇编代码
-假设执行函数前堆栈指针ESP为NN
-push   p2    ;参数2入栈, ESP -= 4h , ESP = NN - 4h
-push   p1    ;参数1入栈, ESP -= 4h , ESP = NN - 8h
-call test    ;压入返回地址 ESP -= 4h, ESP = NN - 0Ch  
-;//进入函数内
+1.首先要明白堆栈的增长方向：
+   ------------------------  （high address）
+                     |
+     |         ( stack)
+     |
+                     |
+                    V
+--------------------------- （low address）
+2.我们来看一个函数,顺便模拟一下代码段的地址：
+int main(void)
 {
-push   ebp                        ;保护先前EBP指针， EBP入栈， ESP-=4h, ESP = NN - 10h
-mov    ebp, esp                   ;设置EBP指针指向栈顶 NN-10h
-mov    eax, dword ptr  [ebp+0ch]  ;ebp+0ch为NN-4h,即参数2的位置
-mov    ebx, dword ptr  [ebp+08h]  ;ebp+08h为NN-8h,即参数1的位置
-sub    esp, 8                     ;局部变量所占空间ESP-=8, ESP = NN-18h
-...
-add    esp, 8                     ;释放局部变量, ESP+=8, ESP = NN-10h
-pop    ebp                        ;出栈,恢复EBP, ESP+=4, ESP = NN-0Ch
-ret    8                          ;ret返回,弹出返回地址,ESP+=4, ESP=NN-08h, 后面加操作数8为平衡堆栈,ESP+=8,ESP=NN, 恢复进入函数前的堆栈.
+    Text address:  80485009 runTask(8,9);
+    Text address:  8048500A  printf("I am fall in love with jeff\n");
+    Text address: 8048500B   return 0;
 }
-相当于ebp寄存器只是借过来用，借用的时候push ebp,还回去的时候pop ebp,ebp用于保存某一时刻esp（栈顶）的值和定位栈中的变量和参数，esp一直指向栈顶.
--------------  high address
-    |   stack
-    |     |
-    |     |
-    |     V
-    |
-    |
--------------  low address    
+
+我们接着模拟这个函数的堆栈:
+push 9   (4个字节)   /*参数2入栈*/  
+push 8   (4个字节)    /*参数1入栈*/
+call runTask   相当于（push 8048500A ）(4个字节)  /*call指令的作用是把call指令的下一条指令压入栈中，也就是把返回地址压入栈中*/
+push ebp  (4个字节) 
+
+进入函数runTask中：
+{
+   push  ebp     /*保护寄存器ebp的值，ebp入栈，这就好比先把ebp借过来用，将来还回去的时候（出栈）原样还回*/
+   mov   ebp  esp   /*让ebp的值等于当前esp（栈顶地址）的值，因为esp是无时无刻不指向栈顶的，这样的好处是可以利用ebp作为媒介去获取入栈的参数（9 和                        8）*/
+   mov   eax         [esp + 0ch] /*让eax临时保存第二个参数的值（9）,我们默认这是32位机，esp占用四个字节，返回地址占用4个字节，第一个参数占用4个                                      字节，即0x0c*/
+   mov   ebx         [esp + 08h]   /*让eax临时保存第一个参数的值（8）0x08的来历同上*/
+    ......
+   pop ebp           /*ebp 出栈，恢复ebp*/
+   ret              /*弹回返回地址*/
+}
+
