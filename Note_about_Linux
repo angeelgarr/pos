@@ -1,0 +1,7 @@
+----------------------------
+About wait() and waitpid()
+父进程调用wait()函数堵塞等待子进程结束
+当调用waitpid(pid_t pid,int *status,int options)可以指定等待任一进程结束。
+当调用waitpid(-1,NULL,0)时可以是堵塞等待任一子进程结束。
+当调用waitpid(-1,NULL，WNOHANG),此时是非堵塞等待子进程结束。
+------------------------
