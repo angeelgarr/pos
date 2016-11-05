@@ -13,6 +13,7 @@ int ReplaceString(unsigned char *result,unsigned char *source,
 	if(result == NULL || source == NULL || subString == NULL || repString == NULL)
 	{
 		printf("param error\n");
+		return -1;
 	}
 	while(1)
 	{
