@@ -108,6 +108,14 @@ int main(void)
 	MyTest();
 #endif 
 
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,start to read passwd",__FILE__,__LINE__,__FUNCTION__);
+#endif
+#ifdef JEFF_TEST
+	strcpy(gl_MaintenaceParam.szTermID,"20005556");
+	strcpy(gl_MaintenaceParam.stConnParam.szRemoteIP, "193.169.190.118");
+	strcpy(gl_MaintenaceParam.stConnParam.stParamGPRS.szAPN, "cmnet");
+#endif
 	ScrCls();					//clear screen first
 
 	// Added by Kim_LinHB 2013-8-16

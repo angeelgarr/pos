@@ -1281,7 +1281,7 @@ uchar PubSelectZeroOne(uchar *pszTitle, uchar *pszItem, uchar *pszChoice1, uchar
 uchar PubSelectYesNo(uchar *pszItem,uchar *pszYesPrompt,uchar *pszNoPrompt);
 
 uchar DebugComSend(uchar *psStr, ...);
-void ComOutput( unsigned char *buf,int len,char *string, ...);
+void ComOutput( unsigned char *buf,int len,int mode,char *string, ...);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

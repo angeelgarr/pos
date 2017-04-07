@@ -1088,6 +1088,9 @@ unsigned char Connect(unsigned short uiTCPTimeOutSec)
 #ifdef  LHB_DEBUG
 	PubDebugOutput(NULL, "start to connect",strlen("start to connect"),DEVICE_COM1,ASC_MODE);
 #endif
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Start to connect host",__FILE__,__LINE__,__FUNCTION__);
+#endif
 	if(0 == uiTCPTimeOutSec)
 		uiTCPTimeOutSec = TIME_OUT_CONN;
 
@@ -1161,6 +1164,7 @@ unsigned char Send(const unsigned char *pData, unsigned int len, unsigned short 
 #ifdef  LHB_DEBUG
 	PubDebugOutput(NULL, "sending",strlen("sending"),DEVICE_COM1,ASC_MODE);
 #endif
+
 	vTrace("Txd()", NULL, 0, TRACE_WARNING, 0);
 	switch(gl_MaintenaceParam.ucConnType[gl_MaintenaceParam.ucConnSel])
 	{
@@ -1188,6 +1192,11 @@ unsigned char Send(const unsigned char *pData, unsigned int len, unsigned short 
 // 			CloseConn();
 // 		}
 	}
+
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Sent",__FILE__,__LINE__,__FUNCTION__);
+#endif
+
 	if(0 == iRet)
 	{
 #ifdef  LHB_DEBUG
@@ -1210,6 +1219,7 @@ unsigned char Recv(unsigned int expLen, unsigned char *pDataOut, unsigned int *l
 #ifdef  LHB_DEBUG
 	PubDebugOutput(NULL, "receiving",strlen("receiving"),DEVICE_COM1,ASC_MODE);
 #endif
+
 	vTrace("Rxd()", NULL, 0, TRACE_WARNING, 0);
 	switch(gl_MaintenaceParam.ucConnType[gl_MaintenaceParam.ucConnSel])
 	{
@@ -1226,10 +1236,14 @@ unsigned char Recv(unsigned int expLen, unsigned char *pDataOut, unsigned int *l
 // 		iRet = PPPRxd(pDataOut, MAX_TCP_BUFFER, lenOut, uiTimeOutSec);
 // 		break;
 	}
+
 	if(0 == iRet)
 	{
 #ifdef  LHB_DEBUG
 		PubDebugOutput(NULL, "received",strlen("received"),DEVICE_COM1,ASC_MODE);
+#endif
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Receiving",__FILE__,__LINE__,__FUNCTION__);
 #endif
 		return OK;
 	}

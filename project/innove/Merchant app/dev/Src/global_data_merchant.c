@@ -1139,6 +1139,11 @@ enCodeReturn ReadUsersPwd(const unsigned char *Name, unsigned char *Pwd)
 	while(Len > 0)
 	{
 		read(fd, (void *)&tmp, sizeof(USER_INFO));
+
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,username=%s,password=%s",__FILE__,__LINE__,__FUNCTION__,tmp.szName,tmp.szPwd);
+#endif
+
 		if(0 == strcmp(tmp.szName, Name))
 		{
 			if(Pwd)

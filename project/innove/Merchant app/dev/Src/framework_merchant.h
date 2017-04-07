@@ -14,8 +14,8 @@ MODIFICATION SHEET:
 #define _FRAMEWORK_MERCHANT_H
 
 // Modified by Kim_LinHB 2015/5/28
-#define STR_VERSION_SUB "5.50"
-#define STR_VERSION_DATE "170109_"
+#define STR_VERSION_SUB "5.51"
+#define STR_VERSION_DATE "170327_"
 
 #define PARAMVER "1"
 #define FILEVER  0x67	// Modified by Kim_LinHB 2013-9-3 from 0x62 to 0x67 for trigger setting D after remote D

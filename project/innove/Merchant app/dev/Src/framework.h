@@ -109,7 +109,7 @@ v4.72
 #define ForAlperTest		//un-hide when test mode (key mute)
 //#define LHB_DEBUG			//un-hide when debug mode (with dump & no "no paper" check)
 //#define LHB_TEST			//un-hide to set parameter with dummy values
-
+#define JEFF_TEST   //output debug message and add something debug.
 #ifdef MULTI_LANG
 /*
   ArInit(x)

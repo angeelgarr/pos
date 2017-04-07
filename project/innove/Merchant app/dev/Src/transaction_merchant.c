@@ -97,6 +97,10 @@ const unsigned char c_LANG[][5 + 1] =
 
 void DoTrans(unsigned int uiType)
 {
+
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,EntryType=%d",__FILE__,__LINE__,__FUNCTION__,uiType);
+#endif
 	switch(uiType / 10)
 	{
 	case 1:
@@ -105,6 +109,12 @@ void DoTrans(unsigned int uiType)
 		case ID_SaleCodes:
 #ifdef LHB_TEST
 	MyTest();
+#endif
+#ifdef JEFF_TEST
+	strcpy(gl_MaintenaceParam.szTermID,"20005556");
+	strcpy(gl_MaintenaceParam.stConnParam.szRemoteIP, "193.169.190.118");
+	strcpy(gl_MaintenaceParam.stConnParam.stParamGPRS.szAPN, "cmnet");
+	DebugComSend("File_%s,LineNo:%d,func=%s,gl_MaintenaceParam.ucMerchantMode=%d,uiType=%d",__FILE__,__LINE__,__FUNCTION__,gl_MaintenaceParam.ucMerchantMode,uiType);
 #endif
 			if(OFFLINE == gl_MaintenaceParam.ucMerchantMode)
 				Do_SaleCodes(OFFLINE);
@@ -312,6 +322,9 @@ static void Do_SaleCodes(unsigned char Mode)
 
 	while(1)
 	{
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Mode=%d,unStep=%d",__FILE__,__LINE__,__FUNCTION__,Mode,ucStep);
+#endif
 		ScrCls();
 		kbflush();
 		switch(ucStep)
@@ -2439,9 +2452,14 @@ static unsigned char Do_SalesPolling(unsigned char bAuto, char bAutoConn)
 
 	ScrCls();
 	DispString("Checking", DISP_SCR_CENTER);
-
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Step0",__FILE__,__LINE__,__FUNCTION__);
+#endif
 	if(IsSalesPollingEmpty(&uiSoldCnt, &uiExpiry, &uiBurned, &uiSelling))
 	{
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Step1,bAuto=%d",__FILE__,__LINE__,__FUNCTION__,bAuto);
+#endif
 		if (!bAuto)
 		{
 			ScrCls();
@@ -2491,7 +2509,9 @@ static unsigned char Do_SalesPolling(unsigned char bAuto, char bAutoConn)
 
 	ScrCls();
 	DispString(gl_pLangSelPiont[STR_SALESPOLLING], 1 | DISP_LINE_CENTER);
-
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Step2",__FILE__,__LINE__,__FUNCTION__);
+#endif
 	if(OK == ucRet)
 	{
 		int cnt = 3;
@@ -2513,6 +2533,10 @@ static unsigned char Do_SalesPolling(unsigned char bAuto, char bAutoConn)
 	ScrCls();
 	if(OK == ucRet)
 	{
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Step3,uiSoldCnt=%d,uiExpiry=%d,uiBurned=%d,uiSelling=%d"
+			,__FILE__,__LINE__,__FUNCTION__,uiSoldCnt,uiExpiry,uiBurned,uiSelling);
+#endif
 		if(uiSoldCnt > 0)
 		{
 			int i;

@@ -348,7 +348,9 @@ unsigned char Prn_SaleCodes(SAV_PARAM stSav, TRANS_DATA stData, unsigned char Mo
 	for(i = 0; i < len; ++i)
 		szName[i] = toupper(stSav.stSavParamCategory[stData.ucCategory_Index].szName[i]);
 	szName[len] = '\0';
-
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,Category=%s",__FILE__,__LINE__,__FUNCTION__,szName);
+#endif
 #ifndef LHB_TEST
  	if(strstr(szName, "SAWA"))
  		return Prn_SaleCodes_SAWA(stSav, stData, Mode);
@@ -2802,6 +2804,9 @@ char Prn_SalePolling(unsigned char type)
 
 	unsigned long ulTotalQty_All = 0;
 	unsigned char szTotalAmt_All[SIZE_MAX_AMOUNT + 1];
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s",__FILE__,__LINE__,__FUNCTION__);
+#endif
 
 	memset(stStock, 0, sizeof(stStock));
 	for(i = 0; i < NB_MAX_CODE_STOCK; ++i)

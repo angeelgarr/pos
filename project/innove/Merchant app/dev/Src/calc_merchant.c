@@ -427,8 +427,8 @@ enCodeReturn Parameter_XML(RESPONSE_HEADER_TAG *pstRespH, \
 		memset(sConnBuffer, 0, sizeof(sConnBuffer));
 
 		Pack_Parameter_XML(szXmlBuffer, &uiXmlLen);
-#if 1
-		//DebugComSend("XML=%s",szXmlBuffer);
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,XML=%s",__FILE__,__LINE__,__FUNCTION__,szXmlBuffer);
 #endif
 		// Zip first
 		enCr = Compress_Request(szXmlBuffer, sConnBuffer, &uiConnLen, MSG_PARAM);
@@ -440,6 +440,9 @@ enCodeReturn Parameter_XML(RESPONSE_HEADER_TAG *pstRespH, \
 			memset(szXmlBuffer, 0, sizeof(szXmlBuffer));
 			memset(sConnBuffer, 0, sizeof(sConnBuffer));
 			enCr = Recv(MAX_TCP_BUFFER, sConnBuffer, &uiConnLen, gl_MaintenaceParam_Ext.cConnectionTimeout);
+#ifdef JEFF_TEST
+		//DebugComSend("File_%s,LineNo:%d,func=%s,enCr=%d,Recv_XML=%s",__FILE__,__LINE__,__FUNCTION__,enCr,sConnBuffer);
+#endif
 			if(OK == enCr)
 			{
 				// Unzip first
@@ -1952,6 +1955,9 @@ static unsigned char UnPack_CategoryPackageList_XML(unsigned char *pszXml, \
 
 	ucRet = GetHeader(pstRespH, headerXML);
 	//DebugComSend("pszXml = %s\n", pszXml);
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,pszXml = %s\n",__FILE__,__LINE__,__FUNCTION__,pszXml);
+#endif
 	if(0 == ucRet)
 	{
 		int i = 0;
@@ -3330,6 +3336,9 @@ static int Compress_Request(unsigned char *psInData, \
 	unsigned char szB64enCodedEncryptedHeader[200];
 	unsigned char szConnectionType[1 + 1];
 
+#ifdef JEFF_TEST
+	PubDebugOutput("Compress_Request():",psInData,strlen(psInData),DEVICE_COM1,ASC_MODE);
+#endif
 #if defined(LHB_DEBUG) && defined(LHB_TEST)
 	{
 #ifdef _WIN32
@@ -3482,7 +3491,10 @@ static int Uncompress_Response(unsigned char *psBuf, \
 		return iRet;
 	}
 
-#if defined(LHB_DEBUG) && defined(LHB_TEST)
+#ifdef JEFF_TEST   //modified by jeff_xiehuan20171252
+		PubDebugOutput("\x0d\x0a" "After Uncompress",psXmlData,*puiXmlDataSize,DEVICE_COM1,ASC_MODE);
+#endif 
+#if defined(LHB_DEBUG) && defined(LHB_TEST) 
 	{
 		unsigned int block = *iXmlDataSize / LHB_BLOCK, block_Cnt = 1;
 #ifdef _WIN32

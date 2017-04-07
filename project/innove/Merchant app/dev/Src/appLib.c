@@ -4256,14 +4256,14 @@ uchar DebugComSend(uchar *psStr, ...)
 {
     uchar ucRet;
     va_list ap;  
-    char buffer[1024];  
+    char buffer[1024 * 3];  
 
     memset(buffer, 0, sizeof(buffer));
 
     ucRet = PortOpen(0,"115200,8,N,1");
     
     va_start(ap, psStr);      //输出自定义内容   
-    vsnprintf(buffer, 1024, psStr, ap);  
+    vsnprintf(buffer, 1024 * 3, psStr, ap);  
     va_end(ap);  
 
     ucRet = PortSends(0, buffer, strlen(buffer)+1);
@@ -4275,10 +4275,10 @@ uchar DebugComSend(uchar *psStr, ...)
     return ucRet;
 }
 
-void ComOutput( unsigned char *buf,int len,char *string, ...)
+void ComOutput( unsigned char *buf,int len,int mode,char *string, ...)
 {
 	int i;
-	uchar printBuf[3000];
+	uchar printBuf[1024 * 4];
 	va_list varg;
 	char varBuf[100];
 	
@@ -4292,9 +4292,19 @@ void ComOutput( unsigned char *buf,int len,char *string, ...)
 	}
 	memset(printBuf,0,sizeof(printBuf));
 	memset(varBuf,0,sizeof(varBuf));
-	for(i = 0;i < len;i++)
+	if(mode == HEX_MODE)
 	{
-		sprintf(printBuf + i*3,"%02X ",buf[i]);
+		for(i = 0;i < len;i++)
+		{
+			sprintf(printBuf + i * 3,"%02X ",buf[i]);
+		}
+	}
+	else
+	{
+		for(i = 0;i < len;i++)
+		{
+			sprintf(printBuf + i,"%c",buf[i]);
+		}
 	}
 	PortOpen(0,"115200,8,N,1");
 	va_start(varg,string);

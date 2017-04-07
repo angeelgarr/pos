@@ -525,6 +525,10 @@ void DispMainMenu(void)
 	int iRet = -1;
 	unsigned char ucKey = 0;
 
+#ifdef JEFF_TEST
+		DebugComSend("File_%s,LineNo:%d,func=%s,gl_MaintenaceParam.stManage.szPwd=%s,gl_MaintenaceParam.szMaintenancePwd=%s",
+			__FILE__,__LINE__,__FUNCTION__,gl_MaintenaceParam.stManage.szPwd,gl_MaintenaceParam.szMaintenancePwd);
+#endif
 	while(1)
 	{
 		MenuInit();
