@@ -1,0 +1,736 @@
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\appLib.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\appLib.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\arabic_farsi_api.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\AutoWrap.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\bluetooth_MIPS.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\checkopt.c
+"BATCH FULL" = "交易记录满"
+"PLS SETTLE BATCH" = "请先结算"
+"SETTLE PENDING" = "请先结算"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\checkopt.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\CLEntryApi.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\CLEntryApi_Prolin.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssApi_MC.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssApi_MC_prolin.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssApi_PBOC.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssApi_Wave.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssApi_Wave_prolin.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssProc.c
+"OPEN PICC ERR" = "读卡器故障"
+"TOO MANY CARD" = "请移除多余卡片"
+"PLS TAP CARD" = "请拍卡"
+"PLS WAIT..." = "请等待..."
+"UNSUPPORT CTLS" = "功能不支持"
+"UNSUPPORTED\nCARD" = "不接纳此卡"
+"SECOND TAP CARD" = "请再次拍卡"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ClssProc.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\CL_common.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\commlib.c
+"INVALID PARAM" = "请检查通信设置"
+"INV COMM TYPE" = "请检查通信类型"
+"USER CANCEL" = "用户取消"
+"TIME OUT" = "超  时"
+"COMM ERROR" = "通讯错误"
+"DATA TOO BIG" = "内部错误"
+"PORT ERROR" = "内部错误"
+"INVALID PORT" = "无效端口号"
+"PORT CLOSED" = "端口未打开"
+"OVERFLOW" = "内部错误"
+"NOT AVAIL PORT" = "无可用端口"
+"OPEN PORT ERR" = "内部错误"
+"LOCAL IP ERR" = "设置本地IP错误"
+"REMOTE IP ERR" = "设置目标IP错误"
+"SET PORT ERR" = "设置端口错误"
+"TCP CONN ERR" = "不能连接主机"
+"SEND DATA ERR" = "发送数据失败"
+"RECV DATA ERR" = "收到的数据错误"
+"SET GW ERR" = "设置网关错误"
+"SET MASK ERR" = "设置掩码错误"
+"SEND OVERFLOW" = "内部错误"
+"PHONE OCCUPIED" = "旁置电话占用"
+"NO DIAL TONE" = "无拨号音"
+"LINE BREAK" = "线路故障,请重试"
+"NO ACK" = "对方无应答"
+"IN DIALING" = "正在拨号"
+"UNSUPPORTED" = "系统不支持"
+"RECV NOT EMPTY" = "内部错误"
+"BUFFER NOT EMPTY" = "内部错误"
+"LINE READY" = "正常挂机和空闲"
+"RECV REJECTED" = "接收请求被拒"
+"LINE BUSY" = "被叫线路忙"
+"INVALID TEL NO" = "请检查电话号码"
+"LINE READY ?" = "请接好电话线"
+"TONE NOT STOP" = "拨号音未停止"
+"INV DATA LENGTH" = "无效数据长度"
+"INTERNAL ERR" = "其它错误"
+"NEED SIM PIN" = "要求SIM PIN"
+"NEED SIM PUK" = "要求SIM PUK"
+"INVALID CONFIG" = "配置不正确"
+"INVALID SIMPIN" = "SIM PIN 不正确"
+"NO SIM CARD" = "没有SIM 卡"
+"INVALID TYPE" = "通信配置不正确"
+"SIM NOT REG." = "SIM 卡未注册"
+"LINE OFF" = "已离线"
+"REGING" = "正在注册网络"
+"DISCONNECTED" = "连接不成功"
+"NO SIGNAL" = "信号弱"
+"CONN. FAIL" = "连接不成功"
+"CONN. CLOSED" = "目标连接已关闭"
+"PLS RETRY" = "请重试"
+"INVALID PWD" = "密码错误"
+"DIAL FAIL" = "拨号不成功"
+"LINK DOWN" = "请重新拨号"
+"LOG OUT" = "未登入，请重试"
+"DNS FAIL" = "DNS解析不成功"
+"NOT INITED" = "未就绪，请重试"
+"SSL ERROR" = "通信故障"
+"CONNECT ERROR" = "连接故障"
+"READ ERROR" = "通信故障"
+"Connecting ..." = "正在连接..."
+"Getting IP..." = "正在获取地址..."
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\commlib.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\commproc.c
+"RE DIAL ?    " = "重新拨号?"
+"DIAL FAIL,RETRY?" = "拨号失败,重试?"
+"MSG ID MISMATCH" = "消息码不符"
+"BIT 3 MISMATCH" = "处理码不符"
+"STAN MISMATCH" = "流水号不符"
+"TID MISMATCH" = "终端号不符"
+"TEL# ERROR" = "电话号码错误"
+"PLS USE PHONE " = "请拿起电话机"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\commproc.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\cpinpad.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\cpinpad.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\debug.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\debug.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emvlib.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emvlib_Prolin.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\EmvMid.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\EmvMid.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emvproc.c
+"NOT ACCEPT" = "不接受"
+"PLS TRY AGAIN" = "请重试"
+"Select App" = "请选择应用"
+"LAST ENTER PIN" = "最后一次输入"
+"PIN ERR, RETRY" = "密码错误，请重试"
+"PLS ENTER PIN" = "请输入密码"
+"PED ERROR" = "PED 故障"
+"PLS USE PINPAD" = "请使用密码键盘"
+"NOT PERMITTED" = "不允许"
+"EXT PCI PINPAD" = "外接密码键盘"
+"NOT IMPLEMENTED" = "未支持"
+"PIN VERIFY OK" = "密码正确"
+"View TVR TSI" = "查看TVR TSI"
+"PRINT DETAIL?" = "打印明细？"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emvproc.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emvtest.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emvtest.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\emv_common.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\eventmsg.c
+"INIT COMM..." = "通信模组初始化"
+"INIT FAIL" = "通信初始化不成功"
+"PLS CHECK SIM OR\nHARDWARE/SIGNAL." = "请检查SIM卡或\n机器/信号"
+"PLS CHECK CABLE\nOR CONFIG." = "请检查连接\n或配置"
+"PLS CHECK SIGNAL\nOR CONFIG." = "请检查信号\n或配置"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\eventmsg.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\fileoper.c
+"DUPLICATE? Y/N" = "重复交易,继续?"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\fileoper.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ft.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\global.c
+"English" = "英语"
+"Chinese Simp" = "简体中文"
+"Chinese Trad" = "繁体中文"
+"Vietnamese" = "越南语"
+"Thai" = "泰语"
+"Japanese" = "日本语"
+"Korea" = "韩国语"
+"Arabic" = "阿拉伯语"
+"PREAUTH" = "预授权PREAUTH"
+"AUTH" = "授权AUTH"
+"SALE" = "销售SALE"
+"INSTALLMENT" = "分期INSTALL"
+"ENQUIRE" = "查询ENQUIRE"
+"UPLOAD" = "批上送BATCH"
+"LOGON" = "签到LOGON"
+"REFUND" = "退款REFUND"
+"REVERSAL" = "冲正REVERSAL"
+"SETTLEMENT" = "结算SETTLEMENT"
+"INITIALIZATION" = "终端初始化"
+"VOID" = "取消VOID"
+"UPLOAD OFFLINE" = "离线上送OFFLINE"
+"OFFLINE" = "离线OFFLINE"
+"SALECOMP" = "销售SALECOMP"
+"CASH" = "现金CASH"
+"TC-ADVICE" = "TC UPLOAD上送"
+"ECHO-TEST" = "ECHO-TEST"
+"BIN DOWNLOAD" = "CARD BIN下载"
+"TXN. ACCEPTED" = "操作完成"
+"PLS CALL BANK" = "查询卡中心"
+"CALL REFERRAL" = "查询号码"
+"INVALID MERCHANT" = "无效商户"
+"PLS PICK UP CARD" = "没收此卡"
+"DO NOT HONOUR" = "不接受"
+"APPROVED WITH ID" = "请验证签名"
+"INVALID TXN" = "请查询卡中心"
+"INVALID AMOUNT" = "金额无效"
+"INVALID ACCOUNT" = "无此卡号"
+"RE-ENTER TRANS." = "请重新操作"
+"APPROVED. IDLE" = "操作完成"
+"INVALID TERMINAL" = "无效终端号"
+"FORMAT ERROR" = "格式错误"
+"PLEASE CALL-LC" = "黑名单卡"
+"PLEASE CALL-CC" = "报失卡"
+"TXN DECLINED" = "交易拒绝"
+"EXPIRED CARD" = "过期卡"
+"INCORRECT PIN" = "密码不正确"
+"CALL ACQUIRER" = "请查询卡中心"
+"BAD PRODUCT CODE" = "请查询卡中心"
+"RECONCILE ERROR" = "核对不符"
+"TRACE NOT FOUND" = "无此账单"
+"BAD BATCH NUMBER" = "请查询卡中心"
+"BATCH NOT FOUND" = "请查询卡中心"
+"APPRV, CALL AMEX" = "操作完成"
+"BAD TERMINAL ID" = "终端号不正确"
+"SYSTEM NOT AVAIL" = "系统不可用"
+"DUPLICATE TRACE" = "请查询卡中心"
+"BATCH TRANSFER" = "核对不符"
+"System Error" = "无效信息"
+"Host Unavailable" = "银行主机无效"
+"Not DCC Eligible" = "DCC 无 效"
+"CARD AUTH FAIL" = "卡片授权失败"
+"OFFLINE APPROVAL" = "脱机批准"
+"OFFLINE DECLINE" = "脱机拒绝"
+"APPROVED" = "批 准"
+"DECLINED" = "拒 绝"
+"GO ONLINE FAIL" = "联机失败"
+"NO UPDATE" = "无更新"
+"ERROR SERIAL NO." = "序列号错误"
+"Duplicate Trans" = "重复交易"
+"NO DCC SGD REQ" = 
+"NO RESPONSE CODE" = "无响应码"
+"TRY AGAIN - NC" = "请接好电话线"
+"TRY AGAIN - CE" = "通讯错误,重试"
+"NO TEL NO" = "电话号码为空"
+"USER CANCELED" = "用户取消"
+"PROCESS FAILED" = "交易失败"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\global.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\GUI.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\GUI_Prolin.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\initpos.c
+"LOAD DEFAULT ? " = "载入默认设置?"
+"COMPLETED!" = "完成！"
+"INITIAL FAIL" = "初始化失败"
+"INIT FINISHED." = "初始化完成"
+"SYSTEM UPDATED." = "更新系统完成"
+"REBOOT..." = "正在重启..."
+"PLS REBOOT POS." = "请重新启动机器"
+"NOT FOR SIMULATOR" = "功能不能仿真"
+"MAX # OF ACQ" = "收单行参数溢出"
+"MAX # OF ISSUER" = "发卡行参数溢出"
+"MAX # OF CARD" = "卡表溢出"
+"MAX # OF PLAN" = "期数溢出"
+"MAX # OF DESC" = "描述参数溢出"
+"ERR SAVE EMV APP" = "保存应用失败"
+"ERR SAVE CAPK" = "保存CAPK失败"
+"COUNTRY CODE" = "国码"
+"MISSING" = "丢失"
+"PHONE NO" = "下载电话"
+"DOWNLOAD ID" = "终端号"
+"Loading Param..." = "正在加载参数..."
+"Loading Failed!" = "参数加载失败"
+"Loading Success!" = "参数加载成功"
+"CARDBIN OVERFLOW" = "卡表溢出"
+"SELECT LANG" = "选择语言"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\initpos.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\lng.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\lng.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\main.c
+"Exit" = "退出"
+"APP AND DATA\nINCONSIST.\nRESET CONFIG?" = "程序和数据不匹配\n是否重置参数 ?"
+"WARNING\nDATA WILL BE CLEAR\nCONTINUE ?" = "警告\n数据将被清除\n是否继续 ?"
+"PLEASE WAIT...\nSYSTEM INIT..." = "系统初始化..."
+"PLEASE WAIT...\nSYSTEM FILE UPDATE..." = "文件更新..."
+"PLEASE INIT" = "请进行初始化"
+"POWER SAVING" = "省电设置"
+"PRESS ANY KEY\nTO RECOVER" = "请按任意键\n退出休眠"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\manage.c
+"TERMINAL  LOCKED" = "终端已锁"
+"MERCHANT PWD" = "请输入商户密码"
+"LOCK TERM" = "终端锁定"
+"TERMINAL LOCK? " = "是否锁终端"
+"KEY INJECTION" = "密钥注入"
+"CLEAR BATCH" = "清除批次"
+"CONFIRM CLEAR" = "确认清除"
+"CLEAR CONFIG" = "清除配置"
+"RESET PASSWORD" = "密码重置"
+"CLEAR REVERSAL" = "清除冲正"
+"CLEAR" = "清零"
+"EMPTY BATCH" = "无交易记录"
+"END OF BATCH" = "记 录 尾"
+"START OF BATCH" = "记 录 首"
+"REPRINT         " = "REPRINT 重印交易"
+"PRINT TOTAL     " = "打印总额PrnTotal"
+"REPRINT SETTLE  " = "结算重印PrnSettl"
+"NO RECEIPT" = "无结账单据"
+"PRINT ERROR LOG" = "打印错误日志"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\manage.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\mlogo.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\mlogo.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\MultiApp.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\MultiApp.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\osbt.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\pack8583.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\pack8583.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\password.c
+"BANK PASSWORD   " = "请输入银行密码"
+"ENT TERMINAL PWD" = "请输入终端密码"
+"ENT MERCHANT PWD" = "请输入商户密码"
+"VOID PASSWORD   " = "请输入取消密码"
+"REFUND PASSWORD " = "请输入退款密码"
+"ADJUST PASSWORD " = "请输入调整密码"
+"SETTLEMENT PWD  " = "请输入结算密码"
+"BANK       PWD" = "银行密码"
+"TERMINAL   PWD" = "终端密码"
+"MERCHANT   PWD" = "商户密码"
+"VOID       PWD" = "取消密码"
+"REFUND     PWD" = "退款密码"
+"ADJUST     PWD" = "调整密码"
+"SETTLE     PWD" = "结算密码"
+"PWD ERROR!" = "密码错误"
+"PWD CHANGED!" = "改密码成功"
+"ENTER NEW PWD" = "请输入新密码"
+"RE-ENTER NEW PWD" = "请再输入一次"
+"NOT CONSISTENT" = "密码不一致"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\password.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\PEDPINPAD.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\posapi.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\print.c
+"ADJ" = 
+"CARD NO" = 
+"HOLDER" = 
+"BATCH NO" = 
+"REF" = 
+"RRN" = 
+"NO. OF INSTALMENT" = 
+"APP" = 
+"AID" = 
+"T C" = 
+"PIN VERIFIED" = 
+"DEMO" = 
+"DATE: " = 
+"TIME: " = 
+"PRESS ANY KEY" = 
+"CARD TYPE" = 
+"CARD NO./EXP. DATE" = 
+"CARDHOLDER SIGNATURE" = 
+"I ACKNOWLEDGE SATISFACTORY RECEIPT OF RELATIVE  GOODS/SERVICE" = 
+"FOR EMV TEST ONLY" = 
+"MERCHANT COPY" = 
+"CUSTOMER COPY" = 
+"BANK COPY" = 
+"DEMONSTRATE ONLY\nNOT FOR PAYMENT PROOF" = 
+"MID" = 
+"TID" = 
+"DEMONSTRATE ONLY" = 
+"NOT FOR PAYMENT PROOF" = 
+"MERCHANT ID." = 
+"TERMINAL ID.:" = 
+"BASE" = 
+"TIPS" = 
+"TOTAL" = 
+"I ACCEPT THE T&C OVERLEAF" = 
+"ISSUER" = 
+"SALES" = 
+"VOID SALES" = 
+"VOID REFUND" = 
+"TRANS TOTALS BY CARD" = 
+"ACQUIRER" = 
+"END  OF  TOTAL" = 
+"BUSINESS DATE - TIME" = 
+"SUMMARY OF CHARGE" = 
+"CLOSE BATCH CONFIRMED" = 
+"S.O.C. NO." = 
+"TRACE  NO." = 
+"BATCH  NO." = 
+"PRINT PARAMETER" = 
+"INIT TID" = 
+"APP VERSION" = 
+"DESCRIPTION" = 
+"PRN EMV PARA ?" = 
+"TXN TEL1" = 
+"TXN TEL2" = 
+"SET TEL1" = 
+"SET TEL2" = 
+"TCP/IP PARAM" = 
+"TXN 1" = 
+"TXN 2" = 
+"GPRS PARAM" = 
+"PAN MASK" = 
+"FLOOR LIMIT" = 
+"ADJUSTMENT PERCENT" = 
+"INSTALMENT" = 
+"EMV PARAMETER" = 
+"TERMINAL TYPE" = 
+"TXN CURR EXP " = 
+"REF CURR EXP " = 
+"REF CURR CON " = 
+"SELECT PSE" = 
+"YES" = 
+"NO" = 
+"EMV APP LIST" = 
+"PARTIAL" = 
+"PRIORITY      " = 
+"TARGET PER    " = 
+"MAX TARGET PER" = 
+"FLOOR LIMIT   " = 
+"THRESHOLD     " = 
+"EMV CAPK LIST" = 
+"ID" = 
+"MOD LEN" = 
+"EMV ERROR LOG" = 
+"PLEASE REPRINT" = 
+"PRINTER BUSY" = 
+"OUT OF PAPER" = 
+"PRN DATA ERROR" = 
+"PRINTER OVERHEAT" = 
+"PRN OVERFLOW" = 
+"PRINT FAILED" = 
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\print.h
+
+// E:\Linhb\projects\Prolin\EDC\EDC_Template\src\ProcTrans.c
+"CARD INSERTED" = 
+"CARD SWIPED" = 
+"NO SUPPORT APP" = 
+"PLS USE CONTACT" = 
+"CARD LOCKED" = 
+"APP LOCKED" = 
+"PARAM ERROR" = 
+"ICC COMMAND ERROR" = 
+"EMV DATA ERROR" = 
+"CARD READ OK" = 
+"PLS REMOVE CARD" = 
+"PLS SEE PHONE" = 
+"TXN APPROVED" = 
+"TXN APPROVED WITH SIG" = 
+"TRY OTHER CARD" = 
+"PLS INSERT CARD" = 
+"AUTHORISING..." = 
+"TAP CARD AGAIN" = 
+"TAP CARD WITH AMOUNT" = 
+"TAP CARD WITH BALANCE" = 
+"END APPLICATION" = 
+"CL TXN not permitted" = 
+"CARD READ ERROR" = 
+"CARD Blocked " = 
+"CARD EXPIRED " = 
+"TXN TERMINATED" = 
+"APP BLOCKED" = 
+"NOT ACCEPTTED" = 
+"TXN DCLINED" = 
+"NO TRANS LOG" = 
+"RECORD NOT EXIST" = 
+"USE CONTACT" = 
+"PARAM ERR" = 
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\ProcTrans.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\prolin_bt.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\protimsE.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\setup.c
+"INIT" = "终端初始化"
+"VIEW RECORD" = "查看交易记录"
+"SETUP" = "终端参数设置"
+"LANGUAGE" = "系统语言"
+"LOCK TERM" = "终端锁定"
+"VIEW TOTAL" = "查看交易总额"
+"ECHO TEST" = "线路测试"
+"LAST TSI TVR" = "TSI TVR"
+"SET TIME" = "设定系统时间"
+"PRINT PARA" = "打印系统参数"
+"TXN REVIEW" = "查阅指定交易"
+"ADJUST" = "交易调整"
+"APP UPDATE" = "程序/参数更新"
+"CHECK FONTS" = "检查字库"
+"REPRN SETTLE" = "重印上次结算"
+"REPRINT LAST" = "重印上笔交易"
+"REPRINT BILL" = "重印指定交易"
+"PRINT TOTAL" = "打印统计"
+"PRINT LOG" = "打印交易流水"
+"POWER SAVING" = "省电设置"
+"MODIFY PWD" = "修改终端密码"
+"DISP VER" = "显示软件版本"
+"SHOW PACKAGE" = "查看通信数据"
+"PRINT ERR LOG" = "打印错误记录"
+"CLEAR" = "清除"
+"TEST TRACK1" = "测试1磁道"
+"TEST TRACK2" = "测试2磁道"
+"TEST TRACK3" = "测试3磁道"
+"FUNC NUMBER ERR" = "功能号错误"
+"FUNCTION:" = "功能号"
+"TERM SETUP" = "终端参数设置"
+"COMM PARA" = "通信参数"
+"VIEW EDC" = "EDC参数"
+"VIEW ISSUER" = "发卡行参数"
+"VIEW ACQUIRER" = "收单行参数"
+"BCD" = 
+"HEX" = 
+"START" = "启动"
+"STOP" = "停止"
+"INV PORT #" = "无效端口号"
+"NON-EMV FLOOR LIMIT" = 
+"EMV FLOOR LIMIT" = "EMV联机交易金额"
+"ADJUST PERCENT" = "金额调整百分比"
+"REFERRAL TEL" = "语音参考电话"
+"Bluetooth Printer" = "蓝牙打印机"
+"SMS" = "短信"
+"EMAIL" = "邮件"
+"COUNTRY CALLING CODES(00*)" = "国码(00*)"
+"SSL" = 
+"CA File" = "CA文件"
+"Cert File" = "本地证书文件"
+"Private Key" = "私钥文件"
+"TRANS TELNO 1" = "交易电话号码1"
+"TRANS TELNO 2" = "交易电话号码2"
+"SETTTLE TELNO 1" = "结算电话号码1"
+"SETTTLE TELNO 2" = "结算电话号码2"
+"AREA CODE" = "区域码"
+"CURRENCY CODE" = "货币代码"
+"DECIMAL POSITION" = "小数位数"
+"IGNORE DIGIT" = "忽略位数"
+"MERCHANT NAME" = "商户名称"
+"MERCHANT ADDR" = "商户地址"
+"PED MODE" = "PED 模式"
+"CONFIRM TIME OUT" = "确认超时"
+"PRINTER TYPE" = "打印模式"
+"THERMAL" = "热敏"
+"SPROCKET" = "针式"
+"RECEIPT #" = "单据数量"
+"TRACE NO" = "流水号"
+"INVOICE NO" = "发票号"
+"INFO" = 
+"EXT INFO" = 
+"INVALID VALUE" = "无效值"
+"INVALID CURRENCY" = "货币代码不存在"
+"INVALID INPUT" = "输入值无效"
+"CHANGE PWD" = "改密码"
+"SET TIME" = "设置时间"
+"OVER LIMIT" = "超出限制"
+"Failed to set\nTry again?" = "设置失败\n重试？"
+"Loading Language..." = "加载语言文件..."
+"Failed to set\nLanguage" = "加载失败"
+"POWERSAVE OPTION" = "省电设置"
+"IDLE: SLEEP" = "空闲时:休眠"
+"IDLE: SHUTDOWN  " = "空闲时:关机"
+"SLEEP" = "休眠"
+"SHUTDOWN" = "关机"
+"SHUTDOWN TIME OUT" = "关机前空闲时间"
+"PWR SAVE TIME OUT" = "休眠前空闲时间"
+"PLS SWIPE CARD" = "请 刷 卡"
+"VIEW MSG" = "查看通讯报文"
+"NO DATA" = "无数据"
+"SENDING..." = "发送中"
+"SEND OK" = "发送完成"
+"PRINT MSG" = "打印报文"
+"VIEW MSG[Request]" = "请求报文"
+"VIEW MSG[Response]" = "应答报文"
+"INVALID PACK" = "数据长度非法"
+"Enter PassWord:" = "请输入密码:"
+"DHCP ENABLE" = "DHCP 开关"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\setup.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\setup.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\Simulate.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\Simulate.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\st8583.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\st8583.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\StatusBar.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\SxxCom.c
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\SxxCom.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\tranproc.c
+"INSTAL SALE " = "销售(分期)"
+"INSTAL VOID " = "撤销(分期)"
+"TRANS CANCELED" = "操作取消"
+"NOT ALLOW VOID" = "该交易不能撤销"
+"VOID ?" = "是否撤销?"
+"CLSS SALE" = "拍卡模式"
+"ADJUST  " = "调整ADJUST"
+"SETTLE  " = "结算SETTLE"
+"DO NOT ADJUST" = "该交易不能调整"
+"NEW TOTAL" = "请输入总额"
+"SETTLE ANYWAY ?" = "继续结算？"
+"NO TXN TOTAL" = "无交易总额"
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\tranproc.h
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\util.c
+"SWIPE/INSERT ..." = "请刷卡/插卡"
+"TRANS NOT ALLOW" = "交易不允许"
+"PROCESSING...." = "处理中..."
+"PLEASE WAIT..." = "请稍候..."
+"DIALING...." = "连接中..."
+"RECEIVING..." = "接收中..."
+"PRINTING..." = "正在打印..."
+"CLEARED     " = "已清除."
+"VERSION" = "版本号"
+"FREE" = "可用空间"
+"TERM ID" = "终端号"
+"FUNCTION ?" = "输入功能号"
+"HALT FOR SAFETY" = "异常，锁定"
+"PLS RESTART POS" = "异常，请重启"
+"READ CARD ERR." = "读卡错误"
+"TXN ACCEPTED" = "操作完成"
+"INVALID CARD" = "卡号错误"
+"ERR EXP. FORMAT" = "有效期格式错"
+"CARD EXPIRED" = "此卡已失效"
+"EMV IS NOT\nALLOWED" ="不支持EMV" 
+"PLS SWIPE AGAIN" = "请重刷"
+"SELECT  HOST" = "请选择:"
+"NON EMV,RE-SWIPE" = "非EMV卡，请重刷"
+"CARD ERROR" = "读卡错误"
+"ENTER 4DBC" = "按入卡片安全码  "
+"SECURITY CODE" = "按入卡片安全码  "
+"NOT ACCEPTED" = "不接受"
+"CARD BLOCKED" = "卡片锁定"
+"FALL BACK" = "请刷卡"
+"PULL OUT" = "请拔卡"
+"EXCEED LIMIT" = "超出限额"
+"SELECT PLAN" = "请选择分期期数"
+"LOWER THAN" = "低于"
+"LIMIT AMOUNT" = "限制金额"
+"BASE AMOUNT" = "请输入金额"
+"ENTER AMOUNT" = "请输入金额"
+"REFUND AMOUNT" = "请输入退款金额"
+"ORIGINAL AMOUNT" = "请输入原金额"
+"ENTER TIP" = "请输入小费"
+"AMOUNT ERROR" = "金额输入错误"
+"CORRECT ?" = "是否正确"
+"ENTER ACCOUNT NO" = "请输入账号"
+"NOT ALLOW MANUL" = "不允许手工输入"
+"EXP DATE: MMYY" = "有效期:   MMYY"
+"PRODUCT CODE?" = "请按入商品代号"
+"INV MAC DATA" = "无效MAC数据"
+"INVALID KEY ID" = "密钥索引非法"
+"INVALID MODE" = "模式错误"
+"KEY MISSING" = "密钥丢失"
+"INVALID KEY INDEX" = "无效密钥"
+"INVALID KEY LEVEL" = "无效密钥"
+"CHECK KEY FAIL" = "无效密钥"
+"PIN BYPASS" = 
+"INPUT CANCELLED" = "取消输入"
+"PLS TRY AGAIN LATER" = "请稍后重试"
+"PED ACCESS DENIALED" = "PED拒绝"
+"INVALID KEY TYPE" = "无效密钥"
+"INVALID PARA" = "无效参数"
+"INVALID DST INDEX" = "无效密钥"
+"INVALID SRC INDEX" = "无效密钥"
+"INVALID KEY LENGTH" = "密钥长度错误"
+"CARD NOT READY" = "IC卡不存在"
+"CARD NOT INIT" = "IC卡未初始化"
+"INVALID GROUP INDEX" = "无效数据"
+"PED LOCKED" = "PED已锁"
+"PED GENERAL ERR" = "PED失败"
+"APPV CODE ?" = "请输入授权号码"
+"TRACE NO ?" = "请输入账单号"
+"NO ACQUIRER" = "无收单行信息"
+"NO ISSUER" = "无发卡行信息"
+"SELECT ISSUER" = "选择发卡行"
+"VOIDED SALE" = "消费取消"
+"VOIDED REFD" = "退款取消"
+"LINK IS OK" = "线路正常"
+"LOGON COMPLETE" = "已登录"
+"APPV CODE" = "授权号码"
+"SYSTEM ERROR" = "系统错误"
+"CONNECT SIMULTR." = "请连接SIMULATOR"
+"FAIL GET SYSINFO" = "获取系统信息失败"
+"ENUM SYS FONTS" = "系统字库"
+"ENUM FAILED" = "获取系统字库失败"
+"Total Amount" = "总金额"
+"Please Sign" = "请确认并签名"
+"CANCEL" = "取消"
+"CLEAR" = "清除"
+"ENTER" = "确定"
+"MENU" = "菜单"
+"FUNC" = "功能"
+"ALPHA" = 
+"UP" = "上"
+"DN" = "下"
+"1.PREV" = "1.前一页"
+"2.NEXT" = "2.后一页"
+"SWITCH" = 
+
+// C:\prolin_sdk_win_2_7\EDC\EDC_Template\src\util.h

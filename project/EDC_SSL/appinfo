@@ -1,0 +1,8 @@
+[app]
+id=MAINAPP
+name=EDC_SSL
+bin=EDC_SSL
+artwork=
+desc=PAX POS Application
+vender=PAX
+version=2.0

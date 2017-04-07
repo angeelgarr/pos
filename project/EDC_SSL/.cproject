@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.paxsz.pdt.crossgcc.configuration.exe.linux.default.1467044777">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.paxsz.pdt.crossgcc.configuration.exe.linux.default.1467044777" moduleId="org.eclipse.cdt.core.settings" name="default">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="com.paxsz.pdt.crossgcc.configuration.exe.linux.default.1467044777" name="default" parent="com.paxsz.pdt.crossgcc.configuration.exe.linux.default">
+					<folderInfo id="com.paxsz.pdt.crossgcc.configuration.exe.linux.default.1467044777." name="/" resourcePath="">
+						<toolChain id="com.paxsz.pdt.crossgcc.toolChain.exe.linux.400953686" name="PAX APP Toolchain" superClass="com.paxsz.pdt.crossgcc.toolChain.exe.linux">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.paxsz.pdt.crossgcc.targetPlatform.262342284" osList="all" superClass="com.paxsz.pdt.crossgcc.targetPlatform"/>
+							<builder buildPath="${workspace_loc:/EDC_SSL}/default" id="com.paxsz.pdt.crossgcc.builder.1571919397" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="com.paxsz.pdt.crossgcc.builder"/>
+							<tool id="com.paxsz.pdt.crossgcc.tool.c.compiler.688021808" name="GCC Compiler" superClass="com.paxsz.pdt.crossgcc.tool.c.compiler">
+								<option id="com.paxsz.pdt.crossgcc.tool.c.compiler.include.paths.1482214575" name="Include path (-I)" superClass="com.paxsz.pdt.crossgcc.tool.c.compiler.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/MID}&quot;"/>
+								</option>
+								<inputType id="com.paxsz.pdt.crossgcc.tool.c.compiler.input.1591360917" name="Input" superClass="com.paxsz.pdt.crossgcc.tool.c.compiler.input"/>
+							</tool>
+							<tool id="com.paxsz.pdt.crossgcc.tool.cpp.compiler.1766686710" name="G++ Compiler" superClass="com.paxsz.pdt.crossgcc.tool.cpp.compiler"/>
+							<tool id="com.paxsz.pdt.crossgcc.tool.c.linker.linux.61523248" name="GCC Linker" superClass="com.paxsz.pdt.crossgcc.tool.c.linker.linux">
+								<option id="com.paxsz.pdt.crossgcc.tool.c.linker.option.paths.1079839493" name="Library search path (-L)" superClass="com.paxsz.pdt.crossgcc.tool.c.linker.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib_a}&quot;"/>
+								</option>
+								<option id="com.paxsz.pdt.crossgcc.tool.c.linker.option.libs.930150377" name="Libraries (-l)" superClass="com.paxsz.pdt.crossgcc.tool.c.linker.option.libs" valueType="stringList">
+									<listOptionValue builtIn="false" value="MID"/>
+									<listOptionValue builtIn="false" value="crypto"/>
+									<listOptionValue builtIn="false" value="AE_Prolin_v202"/>
+									<listOptionValue builtIn="false" value="D_DPAS_LIB_v100"/>
+									<listOptionValue builtIn="false" value="D_EMV_LIB_v603"/>
+									<listOptionValue builtIn="false" value="D_ENTRY_LIB_v505"/>
+									<listOptionValue builtIn="false" value="D_JCB_LIB_v101"/>
+									<listOptionValue builtIn="false" value="D_MC_LIB_v450"/>
+									<listOptionValue builtIn="false" value="D_WAVE_LIB_v305"/>
+									<listOptionValue builtIn="false" value="Device_Prolin_v503"/>
+									<listOptionValue builtIn="false" value="EG_PROLIN2_4_V0.29"/>
+									<listOptionValue builtIn="false" value="osal2"/>
+									<listOptionValue builtIn="false" value="ProTimsAPI"/>
+									<listOptionValue builtIn="false" value="cc2564_wlt"/>
+									<listOptionValue builtIn="false" value="freetype"/>
+									<listOptionValue builtIn="false" value="iniparser"/>
+									<listOptionValue builtIn="false" value="png"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="ts"/>
+									<listOptionValue builtIn="false" value="ssl"/>
+									<listOptionValue builtIn="false" value="xui"/>
+								</option>
+								<inputType id="com.paxsz.pdt.crossgcc.tool.c.linker.input.319704405" name="Input" superClass="com.paxsz.pdt.crossgcc.tool.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="com.paxsz.pdt.crossgcc.tool.cpp.linker.linux.1020223975" name="G++ Linker" superClass="com.paxsz.pdt.crossgcc.tool.cpp.linker.linux"/>
+							<tool id="com.paxsz.pdt.crossgcc.tool.archiver.597112451" name="GCC Archiver" superClass="com.paxsz.pdt.crossgcc.tool.archiver"/>
+							<tool id="com.paxsz.pdt.crossgcc.tool.strip.1646047262" name="GCC Strip" superClass="com.paxsz.pdt.crossgcc.tool.strip"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="EDC_SSL.com.paxsz.pdt.crossgcc.projectType.exe.linux.1661462203" name="Executable" projectType="com.paxsz.pdt.crossgcc.projectType.exe.linux"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
+</cproject>
