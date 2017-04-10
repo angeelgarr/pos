@@ -26,10 +26,16 @@ void AddTcpPackage(struct TCP_SEG *p,struct TCP_SEG *source)
     sTemp = p;
 }
 
+void ExchangeStru(struct TCP_SEG *d,struct TCP_SEG *s)
+{
+	d->data_len = s->data_len;
+    d->start_seqno = s->start_seqno;
+    memcpy(d->data,s->data,s->data_len);
+}
 int main(void)
 {
   int i;
-  int temp;
+  struct TCP_SEG temp;
   int count[100];
   int randA;
   int randB;
@@ -53,14 +59,7 @@ int main(void)
     count[i] = i;
   }
   srand(time(NULL));
-  for(i = 0;i < 100;i++)    //随机打乱交换数据序号
-  {
-    randA = rand() % 100;
-    randB = rand() % 100;
-    temp = count[randA];
-    count[randA] = count[randB];
-    count[randB] = temp;
-  }
+
   while(1)   //为随机插入0和1400长度的数据做准备
   {
     fixA = rand() % 100;
@@ -91,6 +90,16 @@ int main(void)
      }
 	 iTemp = tempTcpPkg.data[k - 1] + 1;
     AddTcpPackage(p + i,&tempTcpPkg);
+  }
+  
+  
+ for(i = 0;i < 1000;i++)    //随机打乱交换数据
+  {
+    randA = rand() % 100;
+    randB = rand() % 100;
+	ExchangeStru(&temp,&tcp_seg[randA]);
+	ExchangeStru(&tcp_seg[randA],&tcp_seg[randB]);
+	ExchangeStru(&tcp_seg[randB],&temp);
   }
   
  output = tcp_seg;  //开始测试数据
