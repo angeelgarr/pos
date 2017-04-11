@@ -1,4 +1,6 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
 typedef struct _listEntry listEntry;
 struct _listEntry
@@ -8,10 +10,17 @@ struct _listEntry
 	listEntry *next;
 };
 
+typedef struct _list
+{
+	listEntry *head;
+	int count;
+}list;
+
+list listHead;
 listEntry *AppendList(listEntry **list,void *data)
 {
 	listEntry *newEntry;
-	
+
 	if(list == NULL)
 	{
 		return NULL;
@@ -25,8 +34,10 @@ listEntry *AppendList(listEntry **list,void *data)
 	else
 	{
 		*list = newEntry;
+		listHead.count++;
 		return newEntry;
 	}
+	listHead.count++;
 	newEntry->next = *list;
 	newEntry->prev = NULL;
 	*list = newEntry;
@@ -36,10 +47,10 @@ listEntry *AppendList(listEntry **list,void *data)
 void test(listEntry *s)
 {
 	int i = 0;
-	
-	while(i++ <= 100)
+
+	while(i++ < listHead.count)
 	{
-		
+
 		printf("find the data =%d\n",s->data);
 		s = s->prev;//or s = s->next;
 	}
@@ -47,19 +58,23 @@ void test(listEntry *s)
 
 int main(void)
 {
-	listEntry *head;
+	//listEntry *head;
 	listEntry *tail;
 	listEntry *temp;
 	int i;
-	
-	temp = AppendList(&head,(void*)100);
+
+	//head = NULL;
+	listHead.count = 0;
+	listHead.head = NULL;
+
+
+	temp = AppendList(&listHead.head,(void*)100);
 	for(i = 0;i < 100;i++)
 	{
-		tail = AppendList(&head,(void*)i);
+		tail = AppendList(&listHead.head,(void*)i);
 	}
 	temp->next = tail;
 	tail->prev = temp;
 	test(temp);
 	return 0;
 }
-
