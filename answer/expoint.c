@@ -18,15 +18,16 @@ void test(void)
 	char *c;
 		
 	alist = (arraylist*)malloc(sizeof(arraylist));	
-	alist->data = malloc(2 *  sizeof(void*));
+	alist->data = malloc(3 *  sizeof(void*));
 	if(alist == NULL)
 	{
 		printf("malloc error\n");
 		exit(-1);
 	}
 	alist->data[0] = "xiehuan";
-	alist->data[1] = "cece";
-	printf("alist->data[1]=%s,alist->data[1][2]=%c\n",alist->data[1],((char**)(alist->data))[1][2]);
+	alist->data[1] = "xiele";
+	alist->data[2] = "xiebang";
+	printf("alist->data[2]=%s,alist->data[1][2]=%c\n",((char**)alist->data)[2],((char**)alist->data)[1][2]);
 }
 
 	 
