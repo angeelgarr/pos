@@ -1,9 +1,9 @@
-Obj = list.o
+Obj = kazlist.o
 
-list:list.o
-	gcc -o list list.c
-list.o:list.c
-	gcc -c list.c
+kazlist:kazlist.o
+	gcc -o $@ $^
+list.o:kazlist.c list.h
+	gcc -c $^
 .PHONY:clean
 
 clean:

@@ -1,5 +1,116 @@
 [{"type":"folder","name":"Beers","contents":[{"type":"folder","name":"Small beers","contents":[{"type":"product","id":1,"name":"Carlsberg","price":30},{"type":"product","id":2,"name":"Tuborg","price":30},{"type":"product","id":3,"name":"Tuborg classic","price":35}]},{"type":"folder","name":"Large beers","contents":[{"type":"product","id":4,"name":"Carlsberg","price":45},{"type":"product","id":5,"name":"Tuborg","price":45},{"type":"product","id":6,"name":"Tuborg classic","price":50}]}]},{"type":"folder","name":"Sandwiches","contents":[{"type":"product","id":7,"name":"Ham and cheese","price":40},{"type":"product","id":8,"name":"Club","price":40},{"type":"product","id":9,"name":"Tuna","price":40}]}]
 
+JSON Array of 2 elements:
+  JSON Object of 3 pairs:
+    JSON Key: "type"
+    JSON String: "folder"
+    JSON Key: "name"
+    JSON String: "Beers"
+    JSON Key: "contents"
+    JSON Array of 2 elements:
+      JSON Object of 3 pairs:
+        JSON Key: "type"
+        JSON String: "folder"
+        JSON Key: "name"
+        JSON String: "Small beers"
+        JSON Key: "contents"
+        JSON Array of 3 elements:
+          JSON Object of 4 pairs:
+            JSON Key: "type"
+            JSON String: "product"
+            JSON Key: "id"
+            JSON Integer: "1"
+            JSON Key: "name"
+            JSON String: "Carlsberg"
+            JSON Key: "price"
+            JSON Integer: "30"
+          JSON Object of 4 pairs:
+            JSON Key: "type"
+            JSON String: "product"
+            JSON Key: "id"
+            JSON Integer: "2"
+            JSON Key: "name"
+            JSON String: "Tuborg"
+            JSON Key: "price"
+            JSON Integer: "30"
+          JSON Object of 4 pairs:
+            JSON Key: "type"
+            JSON String: "product"
+            JSON Key: "id"
+            JSON Integer: "3"
+            JSON Key: "name"
+            JSON String: "Tuborg classic"
+            JSON Key: "price"
+            JSON Integer: "35"
+      JSON Object of 3 pairs:
+        JSON Key: "type"
+        JSON String: "folder"
+        JSON Key: "name"
+        JSON String: "Large beers"
+        JSON Key: "contents"
+        JSON Array of 3 elements:
+          JSON Object of 4 pairs:
+            JSON Key: "type"
+            JSON String: "product"
+            JSON Key: "id"
+            JSON Integer: "4"
+            JSON Key: "name"
+            JSON String: "Carlsberg"
+            JSON Key: "price"
+            JSON Integer: "45"
+          JSON Object of 4 pairs:
+            JSON Key: "type"
+            JSON String: "product"
+            JSON Key: "id"
+            JSON Integer: "5"
+            JSON Key: "name"
+            JSON String: "Tuborg"
+            JSON Key: "price"
+            JSON Integer: "45"
+          JSON Object of 4 pairs:
+            JSON Key: "type"
+            JSON String: "product"
+            JSON Key: "id"
+            JSON Integer: "6"
+            JSON Key: "name"
+            JSON String: "Tuborg classic"
+            JSON Key: "price"
+            JSON Integer: "50"
+  JSON Object of 3 pairs:
+    JSON Key: "type"
+    JSON String: "folder"
+    JSON Key: "name"
+    JSON String: "Sandwiches"
+    JSON Key: "contents"
+    JSON Array of 3 elements:
+      JSON Object of 4 pairs:
+        JSON Key: "type"
+        JSON String: "product"
+        JSON Key: "id"
+        JSON Integer: "7"
+        JSON Key: "name"
+        JSON String: "Ham and cheese"
+        JSON Key: "price"
+        JSON Integer: "40"
+      JSON Object of 4 pairs:
+        JSON Key: "type"
+        JSON String: "product"
+        JSON Key: "id"
+        JSON Integer: "8"
+        JSON Key: "name"
+        JSON String: "Club"
+        JSON Key: "price"
+        JSON Integer: "40"
+      JSON Object of 4 pairs:
+        JSON Key: "type"
+        JSON String: "product"
+        JSON Key: "id"
+        JSON Integer: "9"
+        JSON Key: "name"
+        JSON String: "Tuna"
+        JSON Key: "price"
+        JSON Integer: "40"
+Type some JSON > 
 
 
 
