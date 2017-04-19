@@ -20,6 +20,21 @@
  *
  * Jansson is free software; you can redistribute it and/or modify
  * it under the terms of the MIT license. See LICENSE for details.
+struct productList
+{
+	int price;
+	int varPriceFlag;
+};
+
+struct folderClass
+{
+	char folderName[6];
+	struct folderClass *floder[6];
+	struct productList product[6];
+	struct floderClass *next;
+	int floderNum;
+	int producctNum;
+};
  */
 
 #include <stdio.h>
