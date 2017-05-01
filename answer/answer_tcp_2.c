@@ -3,6 +3,8 @@
 #include<string.h>
 #include<time.h>
 
+
+
 struct TCP_SEG
 {
   struct TCP_SEG *next;
@@ -42,7 +44,7 @@ void AddTcpList(struct TCP_SEG_HEAD *head,struct TCP_SEG *p)
 	p->next = this;
 }
 
-int FindSeq(struct TCP_SEG_HEAD *head,int seq) //找到相同序号的包之后删除此包
+int FindSeqAndDel(struct TCP_SEG_HEAD *head,int seq) //找到相同序号的包之后删除此包
 {
 	struct TCP_SEG *this = head->next;
 	struct TCP_SEG *temp;
@@ -106,7 +108,7 @@ int HandleTcpData(struct TCP_SEG *s)
 		{
 			break;
 		}
-		iRet = FindSeq(outofseq_list,sameSeqCount);
+		iRet = FindSeqAndDel(outofseq_list,sameSeqCount);
 		if(iRet)
 		{
 			return iRet;
@@ -145,15 +147,10 @@ int main(void)
   int  k;
   int fixA;
   int fixB;
-  int aCount;
-  int bCount;
-  int compareLen;
-  int checkDataSeq[100];
-  int checkSeqCount;
   int iTemp;
   struct TCP_SEG *p;
   struct TCP_SEG tempTcpPkg;
-  struct TCP_SEG *output;
+
 
   p = tcp_seg;
   iTemp = 0;
