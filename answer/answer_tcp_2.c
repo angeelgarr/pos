@@ -79,7 +79,6 @@ int HandleTcpData(struct TCP_SEG *s)
 	int i;
 	int sameSeqCount;
 	int iRet;
-	struct TCP_SEG_HEAD *temp;
 
 	if((outofseq_list = (struct TCP_SEG_HEAD*)malloc(sizeof(struct TCP_SEG_HEAD))) == NULL)
 	{
@@ -192,7 +191,11 @@ int main(void)
      {
        tempTcpPkg.data[k] = (iTemp + (k % 256)) % 256;
      }
-	 iTemp = tempTcpPkg.data[k - 1] + 1;
+     if(k >= 1)
+     {
+    	 iTemp = tempTcpPkg.data[k - 1] + 1;
+     }
+
     AddTcpPackage(p + i,&tempTcpPkg);
   }
 
@@ -211,3 +214,4 @@ int main(void)
   }
   return 0;
 }
+
