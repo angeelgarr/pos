@@ -24,43 +24,72 @@ static struct TCP_SEG *sTemp = NULL;
 void PrintTcpData(struct TCP_SEG *s)
 {
   int k;
-	
-  printf("s->seg=%d ",s->start_seqno);
+
+  printf("s->seg=%d len=%d ",s->start_seqno,s->data_len);
  for(k = 0;k < s->data_len;k++)//数据数据
  {
     printf("%02X ",s->data[k]);
  }
  printf("\n");
- 
+
 }
 
-void AddTcpList(struct TCP_SEG_HEAD **seqList,struct TCP_SEG *p)
+void AddTcpList(struct TCP_SEG_HEAD *head,struct TCP_SEG *p)
 {
-	if(seqList == NULL)
-	{
-		return;
-	}
-	p->next = NULL;
-	(*seqList)->next = p;
-	*seqList = p;
+	struct TCP_SEG_HEAD *this = head->next;//最开始是head-next = null，采用头插法
+
+	head->next = p;
+	p->next = this;
 }
 
-void HandleTcpData(struct TCP_SEG *s)
+int FindSeq(struct TCP_SEG_HEAD *head,int seq) //找到相同序号的包之后删除此包
+{
+	struct TCP_SEG *this = head->next;
+	struct TCP_SEG *temp;
+
+	while(this && head->next)
+	{
+		if(((struct TCP_SEG*)(head->next))->start_seqno == seq)//单独处理头节点
+		{
+			PrintTcpData((struct TCP_SEG*)(head->next));
+			head->next = this->next;
+			return 0;
+		}
+		else if(this->start_seqno != seq)//处理头结点之后的结点
+		{
+			temp = this;    //保存上一个结点
+			this = this->next;
+		}
+		else if(this->start_seqno == seq)
+		{
+			PrintTcpData(this);
+			temp->next = this->next;
+			return 0;
+		}
+
+	}
+
+	printf("cannot find this package\n");
+	return -1;
+
+}
+
+int HandleTcpData(struct TCP_SEG *s)
 {
 	int i;
 	int sameSeqCount;
+	int iRet;
 	struct TCP_SEG_HEAD *temp;
-	
+
 	if((outofseq_list = (struct TCP_SEG_HEAD*)malloc(sizeof(struct TCP_SEG_HEAD))) == NULL)
 	{
 		printf("malloc error\n");
 		return -1;
 	}
-	temp = outofseq_list;
 	sameSeqCount = 0;
-	for(i = 0;i < 100;i++)
+	for(i = 0;i < 100;i++) //把序号相同的包打印出来，不同的加入链表
 	{
-		if(s[i].start_seqno == i && )
+		if(s[i].start_seqno == sameSeqCount)
 		{
 			PrintTcpData(&s[i]);
 			sameSeqCount++;
@@ -70,6 +99,22 @@ void HandleTcpData(struct TCP_SEG *s)
 			AddTcpList(outofseq_list,&s[i]);
 		}
 	}
+	printf("start to look up\n");
+
+	while(1)
+	{
+		if(sameSeqCount == 100)
+		{
+			break;
+		}
+		iRet = FindSeq(outofseq_list,sameSeqCount);
+		if(iRet)
+		{
+			return iRet;
+		}
+		sameSeqCount++;
+	}
+	return 0;
 }
 
 void AddTcpPackage(struct TCP_SEG *p,struct TCP_SEG *source)
@@ -90,9 +135,10 @@ void ExchangeStru(struct TCP_SEG *d,struct TCP_SEG *s)
     d->start_seqno = s->start_seqno;
     memcpy(d->data,s->data,s->data_len);
 }
+
 int main(void)
 {
-  int i;
+  int i,iRet;
   struct TCP_SEG temp;
   int count[100];
   int randA;
@@ -149,7 +195,7 @@ int main(void)
 	 iTemp = tempTcpPkg.data[k - 1] + 1;
     AddTcpPackage(p + i,&tempTcpPkg);
   }
-  
+
  for(i = 0;i < 1000;i++)    //随机打乱交换数据
   {
     randA = rand() % 100;
@@ -158,8 +204,10 @@ int main(void)
 	ExchangeStru(&tcp_seg[randA],&tcp_seg[randB]);
 	ExchangeStru(&tcp_seg[randB],&temp);
   }
-  HandleTcpData(tcp_seg);
-  
-  
+  iRet = HandleTcpData(tcp_seg);
+  if(iRet)
+  {
+	  return iRet;
+  }
   return 0;
 }
