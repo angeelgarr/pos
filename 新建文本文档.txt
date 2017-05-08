@@ -1,0 +1,34 @@
+[{"type":"folder","name":"Beers","contents":[{"type":"folder","name":"Small beers","contents":[{"type":"product","id":1,"name":"Carlsberg","price":30},{"type":"product","id":2,"name":"Tuborg","price":30},{"type":"product","id":3,"name":"Tuborg classic","price":35}]},{"type":"folder","name":"Large beers","contents":[{"type":"product","id":4,"name":"Carlsberg","price":45},{"type":"product","id":5,"name":"Tuborg","price":45},{"type":"product","id":6,"name":"Tuborg classic","price":50}]}]},{"type":"folder","name":"Sandwiches","contents":[{"type":"product","id":7,"name":"Ham and cheese","price":40},{"type":"product","id":8,"name":"Club","price":40},{"type":"product","id":9,"name":"Tuna","price":40}]}]
+
+
+
+
+struct product
+{
+	int productId;
+	int productPrice;
+	char productName[20];
+};
+
+struct folderNestClass
+{
+	struct product ProductType[MAX_PRODUCT_NUM];
+	char   folderClassName[20];
+	int    productNum;
+};
+
+struct folderClass
+{
+	struct product ProductType[MAX_PRODUCT_NUM];
+	struct folderNestClass nestedClassType[MAX_NESTED_NUM];
+	char folderClassName[20];
+	int nestFlag;
+	int insertFloderClassNum;
+	int productNum;
+};
+
+struct folder
+{
+	struct folderClass folderType[MAX_CLASS_NUM];
+	int number;
+};
