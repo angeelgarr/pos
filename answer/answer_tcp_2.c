@@ -238,6 +238,7 @@ int main(void)
 	ExchangeStru(&tcp_seg[randB],&temp);
   }
   iRet = HandleTcpData(tcp_seg);
+  printf("the end\n");
   if(iRet)
   {
 	  return iRet;
