@@ -1,0 +1,58 @@
+1.中断向量中，为何一般都存放一个跳转指令而不是别的指令（如加减法）
+	1.中断向量资源有限，一个中断触发只能对应4个字节，只存跳转指令把具体要做的事情放在另外的内存位置。 
+	2.中断不可重入，运行时间应该尽可能的短。
+
+2.Line 126 line83 Line98
+
+--------------------------------------------
+Exercise:
+
+Test.s
+
+.global Test
+.global PrintTest
+.extern Add    			@from c file
+.extern VarifyStaticVar		@from c file
+PrintTest:
+B Test 	       @call Test
+
+Test:          
+mov R7,#4      @syscall 4
+mov R0,#1      @1 = stdout（standard output）
+mov R2,#17     @length of string
+ldr r1,=string @move the address of string to r1
+swi 0          @call softwate interrupt 
+mov r0,#34     @param 1
+mov r1,#66     @param 2
+BL Add         @call Add() in c file.
+mov r1,#1000   
+str r1,[r0]    @move 1000 to the memory of Add()'s return value  <r0 saves the value of a called function>
+BL VarifyStaticVar   @call VarifyStaticVar() in c file.
+mov pc,lr      @equal to "mov R15,R14" or "BX lr"
+string:
+.asciz "print a sentence\n"
+--------------------------------------------------
+print.c
+
+#include<stdio.h>
+
+extern void Test(); //from assembly file
+static int c;
+
+int* Add(int a,int b)
+{
+	c = a + b;
+	printf("a=%d,b=%d,sum =%d\n",a,b,c);
+	return &c;
+}
+
+void VarifyStaticVar(void)
+{
+	printf("staticVar=%d\n",c);
+}
+
+int main(void)
+{
+	Test();
+	return 0;
+}
