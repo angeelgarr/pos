@@ -1,0 +1,6 @@
+使用 APPDEBUG 屏蔽掉main.c中 #undef USE_SDK_DEBUG，在global.h中 Include"appdbg.h" 并且在sdkGlobal.h中
+打开include "debug.h" 而且不能包含 sdkdebug.h 头文件
+  
+使用 SDKDEBUG //#undef USE_SDK_DEBUG 屏蔽掉global.h中 Include"appdbg.h"，
+并且在sdkGlobal.h中
+屏蔽include "debug.h" 包含 sdkdebug.h 头文件
